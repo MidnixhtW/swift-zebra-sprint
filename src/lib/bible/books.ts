@@ -1,253 +1,122 @@
 export type BibleBook = {
-  key: string;
-  name: string; // display name (OSB-style)
+  id: string;
+  /** Display name (OSB-style where applicable) */
+  name: string;
   testament: "OT" | "NT";
-  group: "OT" | "Deuterocanon" | "NT";
-  aliases: string[]; // used to resolve against external APIs
+  /** Name to use with external text sources (e.g. bible-api.com). Defaults to `name`. */
+  apiName?: string;
+  /** If set, forces which translation id to use on bible-api.com */
+  forceTranslation?: "dra";
+  /** If true, indicates the book is part of the Orthodox Study Bible canon beyond the standard Protestant 66 */
+  deuterocanon?: boolean;
 };
 
 // NOTE:
-// - The Orthodox Study Bible (OSB) uses an OT based on the Septuagint and includes deuterocanonical books.
-// - The OSB translation text is copyrighted; this app aligns the *book list and structure*.
+// - The Orthodox Study Bible (OSB) uses a Septuagint-based OT and the NKJV for the NT (copyrighted).
+// - This app aligns to the OSB *book list* and uses public sources for text.
+// - For the additional Orthodox books, we attempt to use the Douay-Rheims (DRA) where available.
 
 export const BIBLE_BOOKS: BibleBook[] = [
-  // OSB-style Old Testament (including deuterocanon)
-  { key: "gen", name: "Genesis", testament: "OT", group: "OT", aliases: ["Genesis"] },
-  { key: "exo", name: "Exodus", testament: "OT", group: "OT", aliases: ["Exodus"] },
-  { key: "lev", name: "Leviticus", testament: "OT", group: "OT", aliases: ["Leviticus"] },
-  { key: "num", name: "Numbers", testament: "OT", group: "OT", aliases: ["Numbers"] },
-  { key: "deu", name: "Deuteronomy", testament: "OT", group: "OT", aliases: ["Deuteronomy"] },
-  { key: "jos", name: "Joshua", testament: "OT", group: "OT", aliases: ["Joshua"] },
-  { key: "jdg", name: "Judges", testament: "OT", group: "OT", aliases: ["Judges"] },
-  { key: "rut", name: "Ruth", testament: "OT", group: "OT", aliases: ["Ruth"] },
+  // Pentateuch
+  { id: "gen", name: "Genesis", testament: "OT" },
+  { id: "exo", name: "Exodus", testament: "OT" },
+  { id: "lev", name: "Leviticus", testament: "OT" },
+  { id: "num", name: "Numbers", testament: "OT" },
+  { id: "deu", name: "Deuteronomy", testament: "OT" },
 
-  // OSB commonly uses Kingdoms naming
-  {
-    key: "1kgd",
-    name: "1 Kingdoms",
-    testament: "OT",
-    group: "OT",
-    aliases: ["1 Kingdoms", "1 Samuel", "I Samuel"],
-  },
-  {
-    key: "2kgd",
-    name: "2 Kingdoms",
-    testament: "OT",
-    group: "OT",
-    aliases: ["2 Kingdoms", "2 Samuel", "II Samuel"],
-  },
-  {
-    key: "3kgd",
-    name: "3 Kingdoms",
-    testament: "OT",
-    group: "OT",
-    aliases: ["3 Kingdoms", "1 Kings", "I Kings"],
-  },
-  {
-    key: "4kgd",
-    name: "4 Kingdoms",
-    testament: "OT",
-    group: "OT",
-    aliases: ["4 Kingdoms", "2 Kings", "II Kings"],
-  },
+  // History
+  { id: "jos", name: "Joshua", testament: "OT" },
+  { id: "jdg", name: "Judges", testament: "OT" },
+  { id: "rut", name: "Ruth", testament: "OT" },
 
-  {
-    key: "1chr",
-    name: "1 Chronicles",
-    testament: "OT",
-    group: "OT",
-    aliases: ["1 Chronicles", "I Chronicles"],
-  },
-  {
-    key: "2chr",
-    name: "2 Chronicles",
-    testament: "OT",
-    group: "OT",
-    aliases: ["2 Chronicles", "II Chronicles"],
-  },
+  // OSB naming for the Kings/Kingdoms (maps to common English names for API)
+  { id: "1kg", name: "1 Kingdoms", apiName: "1 Samuel", testament: "OT" },
+  { id: "2kg", name: "2 Kingdoms", apiName: "2 Samuel", testament: "OT" },
+  { id: "3kg", name: "3 Kingdoms", apiName: "1 Kings", testament: "OT" },
+  { id: "4kg", name: "4 Kingdoms", apiName: "2 Kings", testament: "OT" },
 
-  // Esdras naming varies across traditions; we include OSB display names with aliases.
-  {
-    key: "1esd",
-    name: "1 Esdras",
-    testament: "OT",
-    group: "Deuterocanon",
-    aliases: ["1 Esdras", "I Esdras", "3 Ezra", "3 Esdras"],
-  },
-  {
-    key: "2esd",
-    name: "2 Esdras",
-    testament: "OT",
-    group: "OT",
-    aliases: ["2 Esdras", "II Esdras", "Ezra"],
-  },
-  {
-    key: "neh",
-    name: "Nehemiah",
-    testament: "OT",
-    group: "OT",
-    aliases: ["Nehemiah"],
-  },
+  { id: "1ch", name: "1 Chronicles", testament: "OT" },
+  { id: "2ch", name: "2 Chronicles", testament: "OT" },
 
-  {
-    key: "tob",
-    name: "Tobit",
-    testament: "OT",
-    group: "Deuterocanon",
-    aliases: ["Tobit"],
-  },
-  {
-    key: "jdt",
-    name: "Judith",
-    testament: "OT",
-    group: "Deuterocanon",
-    aliases: ["Judith"],
-  },
-  {
-    key: "est",
-    name: "Esther",
-    testament: "OT",
-    group: "OT",
-    aliases: ["Esther"],
-  },
+  // Ezra/Nehemiah and Orthodox additions
+  { id: "1es", name: "1 Esdras", testament: "OT", deuterocanon: true, forceTranslation: "dra" },
+  { id: "2es", name: "2 Esdras", apiName: "Ezra", testament: "OT" },
+  { id: "neh", name: "Nehemiah", testament: "OT" },
 
-  {
-    key: "1mac",
-    name: "1 Maccabees",
-    testament: "OT",
-    group: "Deuterocanon",
-    aliases: ["1 Maccabees", "I Maccabees"],
-  },
-  {
-    key: "2mac",
-    name: "2 Maccabees",
-    testament: "OT",
-    group: "Deuterocanon",
-    aliases: ["2 Maccabees", "II Maccabees"],
-  },
-  {
-    key: "3mac",
-    name: "3 Maccabees",
-    testament: "OT",
-    group: "Deuterocanon",
-    aliases: ["3 Maccabees", "III Maccabees"],
-  },
+  { id: "tob", name: "Tobit", testament: "OT", deuterocanon: true, forceTranslation: "dra" },
+  { id: "jdth", name: "Judith", testament: "OT", deuterocanon: true, forceTranslation: "dra" },
+  { id: "est", name: "Esther", testament: "OT" },
 
-  { key: "psa", name: "Psalms", testament: "OT", group: "OT", aliases: ["Psalms", "Psalm"] },
-  {
-    key: "pro",
-    name: "Proverbs",
-    testament: "OT",
-    group: "OT",
-    aliases: ["Proverbs"],
-  },
-  {
-    key: "ecc",
-    name: "Ecclesiastes",
-    testament: "OT",
-    group: "OT",
-    aliases: ["Ecclesiastes"],
-  },
-  {
-    key: "sng",
-    name: "Song of Songs",
-    testament: "OT",
-    group: "OT",
-    aliases: ["Song of Songs", "Song of Solomon", "Canticles"],
-  },
-  { key: "job", name: "Job", testament: "OT", group: "OT", aliases: ["Job"] },
-  {
-    key: "wis",
-    name: "Wisdom of Solomon",
-    testament: "OT",
-    group: "Deuterocanon",
-    aliases: ["Wisdom of Solomon", "Wisdom"],
-  },
-  {
-    key: "sir",
-    name: "Sirach",
-    testament: "OT",
-    group: "Deuterocanon",
-    aliases: ["Sirach", "Ecclesiasticus"],
-  },
+  // Maccabees (OSB includes 1–3 Maccabees)
+  { id: "1ma", name: "1 Maccabees", testament: "OT", deuterocanon: true, forceTranslation: "dra" },
+  { id: "2ma", name: "2 Maccabees", testament: "OT", deuterocanon: true, forceTranslation: "dra" },
+  { id: "3ma", name: "3 Maccabees", testament: "OT", deuterocanon: true, forceTranslation: "dra" },
 
-  { key: "isa", name: "Isaiah", testament: "OT", group: "OT", aliases: ["Isaiah"] },
-  { key: "jer", name: "Jeremiah", testament: "OT", group: "OT", aliases: ["Jeremiah"] },
-  {
-    key: "lam",
-    name: "Lamentations",
-    testament: "OT",
-    group: "OT",
-    aliases: ["Lamentations"],
-  },
-  {
-    key: "bar",
-    name: "Baruch",
-    testament: "OT",
-    group: "Deuterocanon",
-    aliases: ["Baruch"],
-  },
-  { key: "ezk", name: "Ezekiel", testament: "OT", group: "OT", aliases: ["Ezekiel"] },
-  { key: "dan", name: "Daniel", testament: "OT", group: "OT", aliases: ["Daniel"] },
+  // Wisdom
+  { id: "job", name: "Job", testament: "OT" },
+  { id: "psa", name: "Psalms", testament: "OT" },
+  { id: "pro", name: "Proverbs", testament: "OT" },
+  { id: "ecc", name: "Ecclesiastes", testament: "OT" },
+  { id: "sng", name: "Song of Songs", apiName: "Song of Solomon", testament: "OT" },
+  { id: "wis", name: "Wisdom", apiName: "Wisdom of Solomon", testament: "OT", deuterocanon: true, forceTranslation: "dra" },
+  { id: "sir", name: "Sirach", apiName: "Ecclesiasticus", testament: "OT", deuterocanon: true, forceTranslation: "dra" },
 
-  { key: "hos", name: "Hosea", testament: "OT", group: "OT", aliases: ["Hosea"] },
-  { key: "jol", name: "Joel", testament: "OT", group: "OT", aliases: ["Joel"] },
-  { key: "amo", name: "Amos", testament: "OT", group: "OT", aliases: ["Amos"] },
-  { key: "oba", name: "Obadiah", testament: "OT", group: "OT", aliases: ["Obadiah"] },
-  { key: "jon", name: "Jonah", testament: "OT", group: "OT", aliases: ["Jonah"] },
-  { key: "mic", name: "Micah", testament: "OT", group: "OT", aliases: ["Micah"] },
-  { key: "nam", name: "Nahum", testament: "OT", group: "OT", aliases: ["Nahum"] },
-  { key: "hab", name: "Habakkuk", testament: "OT", group: "OT", aliases: ["Habakkuk"] },
-  { key: "zep", name: "Zephaniah", testament: "OT", group: "OT", aliases: ["Zephaniah"] },
-  { key: "hag", name: "Haggai", testament: "OT", group: "OT", aliases: ["Haggai"] },
-  { key: "zec", name: "Zechariah", testament: "OT", group: "OT", aliases: ["Zechariah"] },
-  { key: "mal", name: "Malachi", testament: "OT", group: "OT", aliases: ["Malachi"] },
+  // Prophets
+  { id: "isa", name: "Isaiah", testament: "OT" },
+  { id: "jer", name: "Jeremiah", testament: "OT" },
+  { id: "bar", name: "Baruch", testament: "OT", deuterocanon: true, forceTranslation: "dra" },
+  { id: "lam", name: "Lamentations", testament: "OT" },
+  { id: "ezk", name: "Ezekiel", testament: "OT" },
+  { id: "dan", name: "Daniel", testament: "OT" },
 
-  // New Testament (OSB NT uses NKJV, but text is copyrighted; this app uses public sources)
-  { key: "mat", name: "Matthew", testament: "NT", group: "NT", aliases: ["Matthew"] },
-  { key: "mrk", name: "Mark", testament: "NT", group: "NT", aliases: ["Mark"] },
-  { key: "luk", name: "Luke", testament: "NT", group: "NT", aliases: ["Luke"] },
-  { key: "jhn", name: "John", testament: "NT", group: "NT", aliases: ["John"] },
-  { key: "act", name: "Acts", testament: "NT", group: "NT", aliases: ["Acts"] },
-  { key: "rom", name: "Romans", testament: "NT", group: "NT", aliases: ["Romans"] },
-  { key: "1co", name: "1 Corinthians", testament: "NT", group: "NT", aliases: ["1 Corinthians", "I Corinthians"] },
-  { key: "2co", name: "2 Corinthians", testament: "NT", group: "NT", aliases: ["2 Corinthians", "II Corinthians"] },
-  { key: "gal", name: "Galatians", testament: "NT", group: "NT", aliases: ["Galatians"] },
-  { key: "eph", name: "Ephesians", testament: "NT", group: "NT", aliases: ["Ephesians"] },
-  { key: "php", name: "Philippians", testament: "NT", group: "NT", aliases: ["Philippians"] },
-  { key: "col", name: "Colossians", testament: "NT", group: "NT", aliases: ["Colossians"] },
-  { key: "1th", name: "1 Thessalonians", testament: "NT", group: "NT", aliases: ["1 Thessalonians", "I Thessalonians"] },
-  { key: "2th", name: "2 Thessalonians", testament: "NT", group: "NT", aliases: ["2 Thessalonians", "II Thessalonians"] },
-  { key: "1ti", name: "1 Timothy", testament: "NT", group: "NT", aliases: ["1 Timothy", "I Timothy"] },
-  { key: "2ti", name: "2 Timothy", testament: "NT", group: "NT", aliases: ["2 Timothy", "II Timothy"] },
-  { key: "tit", name: "Titus", testament: "NT", group: "NT", aliases: ["Titus"] },
-  { key: "phm", name: "Philemon", testament: "NT", group: "NT", aliases: ["Philemon"] },
-  { key: "heb", name: "Hebrews", testament: "NT", group: "NT", aliases: ["Hebrews"] },
-  { key: "jas", name: "James", testament: "NT", group: "NT", aliases: ["James"] },
-  { key: "1pe", name: "1 Peter", testament: "NT", group: "NT", aliases: ["1 Peter", "I Peter"] },
-  { key: "2pe", name: "2 Peter", testament: "NT", group: "NT", aliases: ["2 Peter", "II Peter"] },
-  { key: "1jn", name: "1 John", testament: "NT", group: "NT", aliases: ["1 John", "I John"] },
-  { key: "2jn", name: "2 John", testament: "NT", group: "NT", aliases: ["2 John", "II John"] },
-  { key: "3jn", name: "3 John", testament: "NT", group: "NT", aliases: ["3 John", "III John"] },
-  { key: "jud", name: "Jude", testament: "NT", group: "NT", aliases: ["Jude"] },
-  { key: "rev", name: "Revelation", testament: "NT", group: "NT", aliases: ["Revelation", "Apocalypse"] },
+  // Minor prophets
+  { id: "hos", name: "Hosea", testament: "OT" },
+  { id: "jol", name: "Joel", testament: "OT" },
+  { id: "amo", name: "Amos", testament: "OT" },
+  { id: "oba", name: "Obadiah", testament: "OT" },
+  { id: "jon", name: "Jonah", testament: "OT" },
+  { id: "mic", name: "Micah", testament: "OT" },
+  { id: "nam", name: "Nahum", testament: "OT" },
+  { id: "hab", name: "Habakkuk", testament: "OT" },
+  { id: "zep", name: "Zephaniah", testament: "OT" },
+  { id: "hag", name: "Haggai", testament: "OT" },
+  { id: "zec", name: "Zechariah", testament: "OT" },
+  { id: "mal", name: "Malachi", testament: "OT" },
+
+  // New Testament
+  { id: "mat", name: "Matthew", testament: "NT" },
+  { id: "mrk", name: "Mark", testament: "NT" },
+  { id: "luk", name: "Luke", testament: "NT" },
+  { id: "jhn", name: "John", testament: "NT" },
+  { id: "act", name: "Acts", testament: "NT" },
+  { id: "rom", name: "Romans", testament: "NT" },
+  { id: "1co", name: "1 Corinthians", testament: "NT" },
+  { id: "2co", name: "2 Corinthians", testament: "NT" },
+  { id: "gal", name: "Galatians", testament: "NT" },
+  { id: "eph", name: "Ephesians", testament: "NT" },
+  { id: "php", name: "Philippians", testament: "NT" },
+  { id: "col", name: "Colossians", testament: "NT" },
+  { id: "1th", name: "1 Thessalonians", testament: "NT" },
+  { id: "2th", name: "2 Thessalonians", testament: "NT" },
+  { id: "1ti", name: "1 Timothy", testament: "NT" },
+  { id: "2ti", name: "2 Timothy", testament: "NT" },
+  { id: "tit", name: "Titus", testament: "NT" },
+  { id: "phm", name: "Philemon", testament: "NT" },
+  { id: "heb", name: "Hebrews", testament: "NT" },
+  { id: "jas", name: "James", testament: "NT" },
+  { id: "1pe", name: "1 Peter", testament: "NT" },
+  { id: "2pe", name: "2 Peter", testament: "NT" },
+  { id: "1jn", name: "1 John", testament: "NT" },
+  { id: "2jn", name: "2 John", testament: "NT" },
+  { id: "3jn", name: "3 John", testament: "NT" },
+  { id: "jud", name: "Jude", testament: "NT" },
+  { id: "rev", name: "Revelation", testament: "NT" },
 ];
 
-export function getBookByNameLike(input: string): BibleBook | null {
-  const q = input.trim().toLowerCase();
-  if (!q) return null;
+export function getBookByName(name: string) {
+  return BIBLE_BOOKS.find((b) => b.name === name);
+}
 
-  // match start
-  const starts = BIBLE_BOOKS.find(
-    (b) => b.name.toLowerCase() === q || b.aliases.some((a) => a.toLowerCase() === q),
-  );
-  if (starts) return starts;
-
-  // fuzzy includes
-  const inc = BIBLE_BOOKS.find(
-    (b) =>
-      b.name.toLowerCase().startsWith(q) ||
-      b.aliases.some((a) => a.toLowerCase().startsWith(q)),
-  );
-  return inc ?? null;
+export function getBookById(id: string) {
+  return BIBLE_BOOKS.find((b) => b.id === id);
 }
