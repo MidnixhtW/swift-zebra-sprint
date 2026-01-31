@@ -26,6 +26,34 @@ function PrayerBlock({ title, lines }: { title: string; lines: string[] }) {
   );
 }
 
+function LinkRow({
+  label,
+  href,
+  note,
+}: {
+  label: string;
+  href: string;
+  note?: string;
+}) {
+  return (
+    <div className="flex flex-col gap-1 rounded-2xl border border-border/60 bg-background/40 p-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="min-w-0">
+        <p className="text-sm font-semibold">{label}</p>
+        {note ? <p className="mt-0.5 text-xs text-muted-foreground">{note}</p> : null}
+      </div>
+      <Button
+        asChild
+        variant="outline"
+        className="mt-2 w-fit shrink-0 rounded-2xl border-border/60 sm:mt-0"
+      >
+        <a href={href} target="_blank" rel="noopener noreferrer">
+          Open
+        </a>
+      </Button>
+    </div>
+  );
+}
+
 const trisagion = [
   "Holy God, Holy Mighty, Holy Immortal, have mercy on us. (3x)",
   "Glory to the Father, and to the Son, and to the Holy Spirit, now and ever and unto ages of ages. Amen.",
@@ -113,6 +141,73 @@ const afterMeals = [
   "Blessed is God, Who has fed and nourished us with His bountiful gifts by His grace and compassion always, now and ever and unto ages of ages. Amen.",
 ];
 
+const ocaOccasions = [
+  {
+    label: "Prayers for Various Occasions (index)",
+    href: "https://www.oca.org/orthodoxy/prayers",
+    note: "OCA's official prayer collection (daily + special occasions).",
+  },
+  {
+    label: "Before & after any Work",
+    href: "https://www.oca.org/orthodoxy/prayers/before-and-after-any-work",
+  },
+  {
+    label: "Before reading the Holy Scripture",
+    href: "https://www.oca.org/orthodoxy/prayers/before-reading-the-holy-scripture",
+  },
+  {
+    label: "Prayer for Travel",
+    href: "https://www.oca.org/orthodoxy/prayers/prayer-for-travel",
+  },
+  {
+    label: "For the Sick",
+    href: "https://www.oca.org/orthodoxy/prayers/for-the-sick",
+  },
+  {
+    label: "For the Departed",
+    href: "https://www.oca.org/orthodoxy/prayers/for-the-departed",
+  },
+  {
+    label: "OCA PDF: Prayers for the sick",
+    href: "https://www.oca.org/files/PDF/AboutOrthChrist/prayers/sick.pdf",
+    note: "Printable PDF (OCA).",
+  },
+  {
+    label: "OCA PDF: Prayers for the departed",
+    href: "https://www.oca.org/files/PDF/AboutOrthChrist/prayers/departed.pdf",
+    note: "Printable PDF (OCA).",
+  },
+  {
+    label: "OCA PDF: Before/after any work",
+    href: "https://www.oca.org/files/PDF/AboutOrthChrist/prayers/work.pdf",
+    note: "Printable PDF (OCA).",
+  },
+];
+
+const communionChurchLinks = [
+  {
+    label: "GOARCH: Personal & Devotional Prayers",
+    href: "https://www.goarch.org/chapel/prayers",
+    note: "Greek Orthodox Archdiocese of America (in communion with OCA).",
+  },
+  {
+    label: "GOARCH: Prayers for the Sick",
+    href: "https://www.goarch.org/-/prayers-for-the-sick",
+  },
+  {
+    label: "GOARCH: Prayers Before Sleep",
+    href: "https://www.goarch.org/-/prayers-before-sleep",
+  },
+  {
+    label: "GOARCH: Communion of the Sick",
+    href: "https://www.goarch.org/-/communion-of-the-sick",
+  },
+  {
+    label: "GOARCH: Prayer at the Blessing of Vehicles of Travel",
+    href: "https://www.goarch.org/-/prayer-at-the-blessing-of-vehicles-of-travel",
+  },
+];
+
 export function PrayerBook() {
   return (
     <div className="grid gap-4">
@@ -123,7 +218,7 @@ export function PrayerBook() {
           <div>
             <h2 className="text-xl font-semibold tracking-tight">Prayers</h2>
             <p className="mt-1 text-sm text-muted-foreground">
-              A short, reliable rule you can actually keep — plus OCA texts & links.
+              Daily prayers in-app, plus official links for prayers for many occasions.
             </p>
           </div>
           <Badge className="rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
@@ -196,6 +291,54 @@ export function PrayerBook() {
                     </a>
                   </Button>
                 </div>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem value="occasions" className="mt-3 border-none">
+            <AccordionTrigger className="rounded-2xl border border-border/60 bg-muted/20 px-4 text-left hover:no-underline">
+              <span className="inline-flex items-center gap-2">
+                <Hand className="h-4 w-4 text-primary" /> OCA: Various occasions
+              </span>
+            </AccordionTrigger>
+            <AccordionContent className="pt-3">
+              <div className="grid gap-3">
+                <div className="rounded-2xl border border-border/60 bg-muted/20 p-4">
+                  <p className="text-xs font-semibold tracking-wide text-muted-foreground">
+                    Official sources (Orthodox Church in America)
+                  </p>
+                  <div className="mt-3 grid gap-2">
+                    {ocaOccasions.map((x) => (
+                      <LinkRow key={x.href} label={x.label} href={x.href} note={x.note} />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem value="communion" className="mt-3 border-none">
+            <AccordionTrigger className="rounded-2xl border border-border/60 bg-muted/20 px-4 text-left hover:no-underline">
+              <span className="inline-flex items-center gap-2">
+                <Hand className="h-4 w-4 text-primary" /> More prayer sources (in communion)
+              </span>
+            </AccordionTrigger>
+            <AccordionContent className="pt-3">
+              <div className="grid gap-3">
+                <div className="rounded-2xl border border-border/60 bg-muted/20 p-4">
+                  <p className="text-xs font-semibold tracking-wide text-muted-foreground">
+                    Greek Orthodox Archdiocese of America (GOARCH)
+                  </p>
+                  <div className="mt-3 grid gap-2">
+                    {communionChurchLinks.map((x) => (
+                      <LinkRow key={x.href} label={x.label} href={x.href} note={x.note} />
+                    ))}
+                  </div>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Want more jurisdictions added (Antiochian, Serbian, Romanian, Bulgarian, etc.)?
+                  Tell me which ones you prefer and whether you want links only or full texts.
+                </p>
               </div>
             </AccordionContent>
           </AccordionItem>
