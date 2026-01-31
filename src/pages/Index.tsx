@@ -1,18 +1,26 @@
 // Update this page (the content is just a fallback if you fail to update the page)
 
-import { MadeWithDyad } from "@/components/made-with-dyad";
+import { AppHeader } from "@/components/app/AppHeader";
+import { AppShell, useAppSection } from "@/components/app/AppShell";
+import { DailyReadings } from "@/components/app/DailyReadings";
+import { DailyReflection } from "@/components/app/DailyReflection";
+import { JesusPrayerCounter } from "@/components/app/JesusPrayerCounter";
+import { PrayerBook } from "@/components/app/PrayerBook";
+import { TodayOverview } from "@/components/app/TodayOverview";
 
 const Index = () => {
+  const { section, setSection } = useAppSection();
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">
-          Start building your amazing project here!
-        </p>
+    <AppShell header={<AppHeader />} section={section} onSectionChange={setSection}>
+      <div className="animate-in fade-in slide-in-from-bottom-2 duration-500">
+        {section === "today" ? <TodayOverview /> : null}
+        {section === "prayers" ? <PrayerBook /> : null}
+        {section === "counter" ? <JesusPrayerCounter /> : null}
+        {section === "readings" ? <DailyReadings /> : null}
+        {section === "reflection" ? <DailyReflection /> : null}
       </div>
-      <MadeWithDyad />
-    </div>
+    </AppShell>
   );
 };
 
