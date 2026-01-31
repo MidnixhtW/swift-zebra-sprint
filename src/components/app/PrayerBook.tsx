@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { PrayerRule } from "@/components/app/PrayerRule";
 
 function PrayerBlock({ title, lines }: { title: string; lines: string[] }) {
   return (
@@ -66,6 +67,8 @@ const afterMeals = [
 export function PrayerBook() {
   return (
     <div className="grid gap-4">
+      <PrayerRule />
+
       <Card className="rounded-3xl border-border/60 bg-card p-5 shadow-sm">
         <div className="flex items-start justify-between gap-4">
           <div>
