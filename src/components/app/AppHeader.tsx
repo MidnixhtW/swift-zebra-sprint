@@ -45,8 +45,8 @@ export function AppHeader() {
         <AspectRatio ratio={16 / 6}>
           <img
             alt="Icon of Christ"
-            src="https://commons.wikimedia.org/wiki/Special:FilePath/Christ_Pantocrator_%28Sinai%29.jpg"
-            className="h-full w-full object-cover object-[50%_18%]"
+            src="https://commons.wikimedia.org/wiki/Special:FilePath/Christ_Pantocrator_mosaic_from_Hagia_Sophia_2744_x_2900_pixels_3.1_MB.jpg"
+            className="h-full w-full object-cover object-[50%_22%]"
             loading="lazy"
           />
           <div className="absolute inset-0 bg-background/35" />
