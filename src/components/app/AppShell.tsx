@@ -26,11 +26,11 @@ const sectionMeta: Record<
   { label: string; icon: typeof Home; aria: string }
 > = {
   today: { label: "Today", icon: Home, aria: "Today" },
-  prayers: { label: "Pray", icon: Hand, aria: "Prayers" },
-  counter: { label: "Rope", icon: ScrollText, aria: "Jesus Prayer counter" },
-  readings: { label: "Read", icon: BookOpen, aria: "Epistle and Gospel" },
+  prayers: { label: "Prayers", icon: Hand, aria: "Prayers" },
+  counter: { label: "Jesus", icon: ScrollText, aria: "Jesus Prayer counter" },
+  readings: { label: "Readings", icon: BookOpen, aria: "Epistle and Gospel" },
   reflection: { label: "Reflect", icon: Sparkles, aria: "Reflection" },
-  catechesis: { label: "Q&A", icon: HelpCircle, aria: "Catechesis questions" },
+  catechesis: { label: "Learn", icon: HelpCircle, aria: "Catechesis questions" },
 };
 
 export function AppShell({

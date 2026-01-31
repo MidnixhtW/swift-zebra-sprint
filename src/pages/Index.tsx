@@ -15,7 +15,7 @@ const Index = () => {
   return (
     <AppShell header={<AppHeader />} section={section} onSectionChange={setSection}>
       <div className="animate-in fade-in slide-in-from-bottom-2 duration-500">
-        {section === "today" ? <TodayOverview /> : null}
+        {section === "today" ? <TodayOverview onNavigate={setSection} /> : null}
         {section === "prayers" ? <PrayerBook /> : null}
         {section === "counter" ? <JesusPrayerCounter /> : null}
         {section === "readings" ? <DailyReadings /> : null}

@@ -57,19 +57,18 @@ export function AppHeader() {
       <Card className="overflow-hidden rounded-3xl border-border/60 bg-card">
         <AspectRatio ratio={16 / 6}>
           <img
-            alt="Church interior"
-            src="https://images.unsplash.com/photo-1520166012956-add9ba0835cb?auto=format&fit=crop&w=1800&q=80"
+            alt="Icon of Christ the Good Shepherd"
+            src="https://commons.wikimedia.org/wiki/Special:FilePath/Good_shepherd_icon.jpg"
             className="h-full w-full object-cover"
             loading="lazy"
           />
-          <div className="absolute inset-0 bg-background/60" />
+          <div className="absolute inset-0 bg-background/55" />
           <div className="absolute inset-0 p-5 sm:p-6">
             <p className="text-xs font-semibold tracking-wide text-muted-foreground">
-              Built for young adults
+              Prayer • Fasting • Scripture
             </p>
             <p className="mt-1 max-w-xl text-sm leading-relaxed">
-              Prayers, fasting guidance, daily readings, and a Jesus Prayer rope — all with
-              direct references to the Orthodox Church in America.
+              A daily Orthodox companion with direct links to the Orthodox Church in America.
             </p>
           </div>
         </AspectRatio>
