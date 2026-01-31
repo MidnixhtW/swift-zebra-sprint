@@ -8,10 +8,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import {
-  ToggleGroup,
-  ToggleGroupItem,
-} from "@/components/ui/toggle-group";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 export type AppSection =
   | "today"
@@ -27,10 +24,14 @@ const sectionMeta: Record<
 > = {
   today: { label: "Today", icon: Home, aria: "Today" },
   prayers: { label: "Prayers", icon: Hand, aria: "Prayers" },
-  counter: { label: "Jesus", icon: ScrollText, aria: "Jesus Prayer counter" },
+  counter: {
+    label: "Jesus Prayer Count",
+    icon: ScrollText,
+    aria: "Jesus Prayer counter",
+  },
   readings: { label: "Readings", icon: BookOpen, aria: "Epistle and Gospel" },
   reflection: { label: "Reflect", icon: Sparkles, aria: "Reflection" },
-  catechesis: { label: "Learn", icon: HelpCircle, aria: "Catechesis questions" },
+  catechesis: { label: "Learn", icon: HelpCircle, aria: "Catechesis" },
 };
 
 export function AppShell({
