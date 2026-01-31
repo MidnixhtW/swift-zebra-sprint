@@ -19,48 +19,48 @@ type QA = {
 const QA_ITEMS: QA[] = [
   {
     q: "Why do Orthodox Christians venerate icons?",
-    a: "Because God truly became man in Jesus Christ. Icons witness to the Incarnation and help us pray by directing honor to the person depicted (the ‘prototype’), not to wood and paint. Veneration is not worship—worship belongs to God alone.",
-    sourceLabel: "OCA – Icons (The Orthodox Faith)",
+    a: "Summary: because the Incarnation makes depicting Christ possible; icons lead us to prayer and honor the person depicted (the prototype), while worship belongs to God alone.",
+    sourceLabel: "OCA source – Icons (The Orthodox Faith)",
     sourceUrl:
       "https://www.oca.org/orthodoxy/the-orthodox-faith/worship/the-church-building/icons",
   },
   {
     q: "Why do Orthodox ask saints to pray for them?",
-    a: "The saints are alive in Christ and remain members of His one Body. Asking their intercession is like asking a faithful friend to pray—while worship is offered only to the Holy Trinity.",
-    sourceLabel: "OCA – Praying to the Saints",
+    a: "Summary: the saints are alive in Christ and remain members of His one Body; we ask their intercession while worship is offered only to the Holy Trinity.",
+    sourceLabel: "OCA source – Praying to the Saints",
     sourceUrl: "https://www.oca.org/reflections/fr.-lawrence-farley/praying-to-the-saints",
   },
   {
     q: "Why do Orthodox Christians fast?",
-    a: "Fasting is a spiritual discipline that supports repentance, prayer, and mercy. It’s meant to train freedom from passions and dependence on comfort—not to ‘earn’ salvation. The Church teaches fasting should be joined to almsgiving and turning away from sin.",
-    sourceLabel: "OCA – Fasting (The Orthodox Faith)",
+    a: "Summary: fasting supports repentance, prayer, and mercy; it trains freedom from passions and is meant to be joined to almsgiving and turning away from sin.",
+    sourceLabel: "OCA source – Fasting (The Orthodox Faith)",
     sourceUrl:
       "https://www.oca.org/orthodoxy/the-orthodox-faith/spirituality/prayer-fasting-and-almsgiving/fasting",
   },
   {
     q: "How do I make the sign of the Cross (and why)?",
-    a: "It’s a short bodily prayer that confesses the Holy Trinity and proclaims Christ’s saving Cross. Traditionally: forehead → chest → right shoulder → left shoulder.",
-    sourceLabel: "OCA – Sign of the Cross",
+    a: "Summary: it's a short bodily prayer confessing the Trinity and proclaiming Christ's saving Cross; traditionally: forehead → chest → right shoulder → left shoulder.",
+    sourceLabel: "OCA source – Sign of the Cross",
     sourceUrl:
       "https://www.oca.org/orthodoxy/the-orthodox-faith/worship/the-church-building/sign-of-the-cross",
   },
   {
     q: "What is Holy Tradition?",
-    a: "Holy Tradition is the living faith and life of the Church handed down from the apostles—Scripture is its central written expression. Orthodox Christians receive the Bible within the Church’s worship and teaching, not as an isolated document.",
-    sourceLabel: "OCA – Tradition (The Orthodox Faith)",
+    a: "Summary: Holy Tradition is the living faith and life of the Church handed down from the apostles; Scripture is its central written expression and is received within the Church.",
+    sourceLabel: "OCA source – Tradition (The Orthodox Faith)",
     sourceUrl:
       "https://www.oca.org/orthodoxy/the-orthodox-faith/doctrine-scripture/sources-of-christian-doctrine/tradition",
   },
   {
     q: "What is Confession in Orthodoxy?",
-    a: "Confession (Penance) is the sacramental healing of sins through repentance, spoken confession, and absolution. The priest is a witness and minister of Christ’s forgiveness, guiding the penitent back into communion.",
-    sourceLabel: "OCA – The Sacrament of Confession (Q&A)",
+    a: "Summary: Confession (Penance) is sacramental healing through repentance, confession, and absolution—restoring communion with Christ and His Church.",
+    sourceLabel: "OCA source – The Sacrament of Confession (Q&A index)",
     sourceUrl: "https://www.oca.org/questions/sacramentconfession",
   },
   {
     q: "How should I pray each day?",
-    a: "Orthodox prayer is meant to be regular, simple, and attentive—formed by the Church’s worship and supported by short, consistent daily prayer. The goal is communion with God in humility and love.",
-    sourceLabel: "OCA – Prayer (The Orthodox Faith)",
+    a: "Summary: prayer should be regular, simple, and attentive—formed by the Church's worship, supported by a consistent daily rule, and aimed at communion with God.",
+    sourceLabel: "OCA source – Prayer (The Orthodox Faith)",
     sourceUrl:
       "https://www.oca.org/orthodoxy/the-orthodox-faith/worship/the-daily-cycles-of-prayer/prayer",
   },
@@ -72,9 +72,11 @@ export function CatechesisQA() {
       <Card className="rounded-3xl border-border/60 bg-card p-5 shadow-sm">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <h2 className="text-xl font-semibold tracking-tight">Catechesis (common questions)</h2>
+            <h2 className="text-xl font-semibold tracking-tight">
+              Catechesis (common questions)
+            </h2>
             <p className="mt-1 text-sm text-muted-foreground">
-              Short answers, always backed up with an OCA source link.
+              Each answer below is a brief summary — tap the OCA link for the full teaching.
             </p>
           </div>
           <HelpCircle className="h-5 w-5 text-muted-foreground" />
