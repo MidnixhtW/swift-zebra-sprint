@@ -4,91 +4,48 @@
 
 @layer base {
   :root {
-    /* Orthodox-inspired palette: parchment + royal blue + gold */
-    --background: 42 55% 97%;
-    --foreground: 222 32% 14%;
+    /* Black + red palette (fixed) */
+    --background: 0 0% 6%;
+    --foreground: 0 0% 98%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222 32% 14%;
+    --card: 0 0% 9%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 32% 14%;
+    --popover: 0 0% 9%;
+    --popover-foreground: 0 0% 98%;
 
-    /* Royal blue */
-    --primary: 222 62% 32%;
+    /* Vivid red */
+    --primary: 0 78% 52%;
     --primary-foreground: 0 0% 100%;
 
-    /* Soft icon-panel blue */
-    --secondary: 224 35% 94%;
-    --secondary-foreground: 222 32% 14%;
+    /* Deep charcoal */
+    --secondary: 0 0% 12%;
+    --secondary-foreground: 0 0% 98%;
 
-    /* Parchment-muted */
-    --muted: 42 30% 92%;
-    --muted-foreground: 222 14% 38%;
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 72%;
 
-    /* Gold */
-    --accent: 43 90% 52%;
-    --accent-foreground: 222 32% 14%;
+    /* Complement: warm gold (sparingly) */
+    --accent: 38 92% 55%;
+    --accent-foreground: 0 0% 10%;
 
-    --destructive: 0 72% 50%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive: 0 70% 42%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 222 18% 86%;
-    --input: 222 18% 86%;
-    --ring: 43 90% 52%;
+    --border: 0 0% 16%;
+    --input: 0 0% 16%;
+    --ring: 0 78% 52%;
 
-    --radius: 1rem;
+    --radius: 1.1rem;
 
-    --sidebar-background: 42 55% 97%;
-    --sidebar-foreground: 222 32% 14%;
-    --sidebar-primary: 222 62% 32%;
+    --sidebar-background: 0 0% 6%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 0 78% 52%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 224 35% 94%;
-    --sidebar-accent-foreground: 222 32% 14%;
-    --sidebar-border: 222 18% 86%;
-    --sidebar-ring: 43 90% 52%;
-  }
-
-  .dark {
-    /* Deep icon-navy + warm ivory + gold */
-    --background: 222 46% 10%;
-    --foreground: 45 55% 96%;
-
-    --card: 222 40% 12%;
-    --card-foreground: 45 55% 96%;
-
-    --popover: 222 40% 12%;
-    --popover-foreground: 45 55% 96%;
-
-    /* Gold becomes primary in dark for strong, readable CTAs */
-    --primary: 43 92% 55%;
-    --primary-foreground: 222 46% 10%;
-
-    --secondary: 222 26% 16%;
-    --secondary-foreground: 45 55% 96%;
-
-    --muted: 222 26% 16%;
-    --muted-foreground: 45 20% 78%;
-
-    /* Burgundy accent for warmth */
-    --accent: 352 55% 36%;
-    --accent-foreground: 45 55% 96%;
-
-    --destructive: 0 62% 36%;
-    --destructive-foreground: 45 55% 96%;
-
-    --border: 222 22% 20%;
-    --input: 222 22% 20%;
-    --ring: 43 92% 55%;
-
-    --sidebar-background: 222 46% 10%;
-    --sidebar-foreground: 45 55% 96%;
-    --sidebar-primary: 43 92% 55%;
-    --sidebar-primary-foreground: 222 46% 10%;
-    --sidebar-accent: 222 26% 16%;
-    --sidebar-accent-foreground: 45 55% 96%;
-    --sidebar-border: 222 22% 20%;
-    --sidebar-ring: 43 92% 55%;
+    --sidebar-accent: 0 0% 12%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 0 0% 16%;
+    --sidebar-ring: 0 78% 52%;
   }
 }
 
