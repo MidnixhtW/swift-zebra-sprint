@@ -2,7 +2,12 @@ import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { BookOpen, ExternalLink } from "lucide-react";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -28,7 +33,7 @@ function ReadingCard({
           <p className="mt-1 truncate text-sm font-semibold">{display || "—"}</p>
         </div>
         <Badge className="rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-          OCA lectionary
+          Verify on OCA
         </Badge>
       </div>
       {text ? (
@@ -69,18 +74,24 @@ export function DailyReadings() {
           <div className="text-sm text-muted-foreground">Loading readings…</div>
         ) : q.isError ? (
           <div className="text-sm text-destructive">
-            Couldn’t load readings right now.
+            Couldn't load readings right now.
           </div>
         ) : q.data ? (
           <div className="grid gap-3">
             <ReadingCard
               label="Epistle"
-              display={q.data.readings.epistle?.display ?? q.data.readings.epistle?.short_display}
+              display={
+                q.data.readings.epistle?.display ??
+                q.data.readings.epistle?.short_display
+              }
               text={readingText(q.data.readings.epistle)}
             />
             <ReadingCard
               label="Gospel"
-              display={q.data.readings.gospel?.display ?? q.data.readings.gospel?.short_display}
+              display={
+                q.data.readings.gospel?.display ??
+                q.data.readings.gospel?.short_display
+              }
               text={readingText(q.data.readings.gospel)}
             />
 
@@ -98,7 +109,10 @@ export function DailyReadings() {
                           className="rounded-2xl border border-border/60 bg-background p-4"
                         >
                           <p className="text-sm font-semibold">
-                            {r.display ?? r.short_display ?? r.description ?? "Reading"}
+                            {r.display ??
+                              r.short_display ??
+                              r.description ??
+                              "Reading"}
                           </p>
                           {readingText(r, 500) ? (
                             <p className="mt-2 text-sm text-muted-foreground">
@@ -117,7 +131,11 @@ export function DailyReadings() {
               <div className="text-xs text-muted-foreground">
                 Backed up by the OCA daily readings page.
               </div>
-              <Button asChild variant="outline" className="rounded-2xl border-border/60">
+              <Button
+                asChild
+                variant="outline"
+                className="rounded-2xl border-border/60"
+              >
                 <a href={q.data.sources.ocaDailyUrl} target="_blank" rel="noreferrer">
                   Open on OCA <ExternalLink className="ml-2 h-4 w-4" />
                 </a>

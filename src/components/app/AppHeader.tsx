@@ -25,9 +25,14 @@ export function AppHeader() {
 
         <div className="flex items-center gap-2">
           <Badge className="hidden rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary sm:inline-flex">
-            OCA-backed
+            OCA sources
           </Badge>
-          <Button asChild size="sm" variant="outline" className="rounded-2xl border-border/60">
+          <Button
+            asChild
+            size="sm"
+            variant="outline"
+            className="rounded-2xl border-border/60"
+          >
             <a href="https://www.oca.org" target="_blank" rel="noreferrer">
               OCA <ExternalLink className="ml-2 h-4 w-4" />
             </a>

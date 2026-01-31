@@ -1,0 +1,5 @@
+/*
+  This file exists because some tooling expects a Tailwind entrypoint at src/index.css.
+  The app itself imports src/globals.css from src/main.tsx.
+*/
+@import "./globals.css";
