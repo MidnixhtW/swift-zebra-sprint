@@ -9,7 +9,8 @@ import {
   Search,
   Star,
 } from "lucide-react";
-import { BIBLE_BOOKS } from "@/lib/bible/books";
+import { BIBLE_BOOKS, getBookByNameLike } from "@/lib/bible/books";
+import { fetchBollsChapter, resolveBollsBookId } from "@/lib/bible/bolls";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -25,33 +26,13 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
-type BibleApiVerse = {
-  book_name?: string;
-  chapter?: number;
-  verse?: number;
-  text?: string;
-};
-
-type BibleApiResponse = {
-  reference?: string;
-  translation_id?: string;
-  translation_name?: string;
-  translation_note?: string;
-  verses?: BibleApiVerse[];
-};
-
-type Translation = "web" | "kjv";
+type Translation = "KJV" | "YLT"; // KJV often includes apocrypha in bolls.life
 
 type BookmarkItem = {
   ref: string;
   translation: Translation;
   createdAt: number;
 };
-
-function bibleApiUrl(ref: string, translation: Translation) {
-  const encoded = encodeURIComponent(ref.trim());
-  return `https://bible-api.com/${encoded}?translation=${translation}`;
-}
 
 function bookmarksKey() {
   return "bible:bookmarks";
@@ -71,10 +52,10 @@ function safeJsonParse<T>(raw: string | null): T | null {
 }
 
 export function OrthodoxBible() {
-  const [translation, setTranslation] = useState<Translation>("web");
+  const [translation, setTranslation] = useState<Translation>("KJV");
 
   // Browse mode
-  const [book, setBook] = useState("John");
+  const [bookKey, setBookKey] = useState("jhn");
   const [chapter, setChapter] = useState(1);
 
   // Reference mode
@@ -86,13 +67,13 @@ export function OrthodoxBible() {
   useEffect(() => {
     const saved = safeJsonParse<{
       translation?: Translation;
-      book?: string;
+      bookKey?: string;
       chapter?: number;
       ref?: string;
     }>(localStorage.getItem(lastReadKey()));
 
     if (saved?.translation) setTranslation(saved.translation);
-    if (saved?.book) setBook(saved.book);
+    if (saved?.bookKey) setBookKey(saved.bookKey);
     if (typeof saved?.chapter === "number") setChapter(Math.max(1, saved.chapter));
     if (saved?.ref) {
       setRefInput(saved.ref);
@@ -108,59 +89,57 @@ export function OrthodoxBible() {
   useEffect(() => {
     localStorage.setItem(
       lastReadKey(),
-      JSON.stringify({ translation, book, chapter, ref: refSubmitted }),
+      JSON.stringify({ translation, bookKey, chapter, ref: refSubmitted }),
     );
-  }, [translation, book, chapter, refSubmitted]);
+  }, [translation, bookKey, chapter, refSubmitted]);
 
   useEffect(() => {
     localStorage.setItem(bookmarksKey(), JSON.stringify(bookmarks));
   }, [bookmarks]);
 
-  const browseRef = `${book} ${chapter}`;
-  const browseUrl = useMemo(
-    () => bibleApiUrl(browseRef, translation),
-    [browseRef, translation],
-  );
-  const refUrl = useMemo(
-    () => bibleApiUrl(refSubmitted, translation),
-    [refSubmitted, translation],
+  const currentBook = useMemo(
+    () => BIBLE_BOOKS.find((b) => b.key === bookKey) ?? BIBLE_BOOKS[0],
+    [bookKey],
   );
 
   const browseQuery = useQuery({
-    queryKey: ["bible", "browse", book, chapter, translation],
+    queryKey: ["bible", "browse", translation, currentBook.key, chapter],
     queryFn: async () => {
-      const res = await fetch(browseUrl);
-      if (!res.ok) throw new Error(`Bible request failed (${res.status})`);
-      return (await res.json()) as BibleApiResponse;
+      const id = await resolveBollsBookId(translation, [
+        currentBook.name,
+        ...currentBook.aliases,
+      ]);
+      if (!id) throw new Error(`Book not found in ${translation}`);
+      return fetchBollsChapter(translation, id, chapter);
     },
   });
 
   const refQuery = useQuery({
-    queryKey: ["bible", "ref", refSubmitted, translation],
+    queryKey: ["bible", "ref", translation, refSubmitted],
     queryFn: async () => {
-      const res = await fetch(refUrl);
-      if (!res.ok) throw new Error(`Bible request failed (${res.status})`);
-      return (await res.json()) as BibleApiResponse;
+      const parts = refSubmitted.match(/^(.+?)\s+(\d+)(?::(\d+))?$/);
+      if (!parts) throw new Error("Invalid reference format");
+      const [, bookName, chStr] = parts;
+      const ch = Number(chStr);
+
+      const bookObj = getBookByNameLike(bookName);
+      const candidates = bookObj ? [bookObj.name, ...bookObj.aliases] : [bookName];
+
+      const id = await resolveBollsBookId(translation, candidates);
+      if (!id) throw new Error(`Book not found in ${translation}`);
+      return fetchBollsChapter(translation, id, ch);
     },
     enabled: Boolean(refSubmitted.trim()),
   });
 
-  const browseVerses = browseQuery.data?.verses ?? [];
-  const browseTitle = browseQuery.data?.reference ?? browseRef;
-
   const isBookmarked = useMemo(() => {
-    const ref = `${book} ${chapter}`;
+    const ref = `${currentBook.name} ${chapter}`;
     return bookmarks.some((b) => b.ref === ref && b.translation === translation);
-  }, [book, chapter, bookmarks, translation]);
+  }, [currentBook, chapter, bookmarks, translation]);
 
-  const ot = useMemo(
-    () => BIBLE_BOOKS.filter((b) => b.testament === "OT"),
-    [],
-  );
-  const nt = useMemo(
-    () => BIBLE_BOOKS.filter((b) => b.testament === "NT"),
-    [],
-  );
+  const ot = useMemo(() => BIBLE_BOOKS.filter((b) => b.group === "OT"), []);
+  const deut = useMemo(() => BIBLE_BOOKS.filter((b) => b.group === "Deuterocanon"), []);
+  const nt = useMemo(() => BIBLE_BOOKS.filter((b) => b.group === "NT"), []);
 
   function addBookmark(ref: string) {
     setBookmarks((prev) => {
@@ -185,7 +164,7 @@ export function OrthodoxBible() {
           <div>
             <h2 className="text-xl font-semibold tracking-tight">Bible</h2>
             <p className="mt-1 text-sm text-muted-foreground">
-              Browse by book & chapter, or jump to a reference. Bookmarks sync to this device.
+              Aligned with the Orthodox Study Bible (OSB) canon and order.
             </p>
           </div>
           <BookOpen className="h-5 w-5 text-muted-foreground" />
@@ -203,16 +182,16 @@ export function OrthodoxBible() {
             className="gap-2"
           >
             <ToggleGroupItem
-              value="web"
-              className="h-9 rounded-2xl border border-border/60 px-3 data-[state=on]:border-primary/30 data-[state=on]:bg-primary/10"
-            >
-              WEB
-            </ToggleGroupItem>
-            <ToggleGroupItem
-              value="kjv"
+              value="KJV"
               className="h-9 rounded-2xl border border-border/60 px-3 data-[state=on]:border-primary/30 data-[state=on]:bg-primary/10"
             >
               KJV
+            </ToggleGroupItem>
+            <ToggleGroupItem
+              value="YLT"
+              className="h-9 rounded-2xl border border-border/60 px-3 data-[state=on]:border-primary/30 data-[state=on]:bg-primary/10"
+            >
+              YLT
             </ToggleGroupItem>
           </ToggleGroup>
 
@@ -230,10 +209,6 @@ export function OrthodoxBible() {
             </a>
           </Button>
         </div>
-
-        <p className="mt-2 text-xs text-muted-foreground">
-          Orthodox canon guidance source: "https://www.oca.org/questions/scripture/canon-of-scripture"
-        </p>
       </Card>
 
       <Tabs defaultValue="browse" className="w-full">
@@ -258,7 +233,7 @@ export function OrthodoxBible() {
                     <p className="text-xs font-semibold tracking-wide text-muted-foreground">
                       Book
                     </p>
-                    <Select value={book} onValueChange={setBook}>
+                    <Select value={bookKey} onValueChange={setBookKey}>
                       <SelectTrigger className="h-11 rounded-2xl">
                         <SelectValue placeholder="Choose a book" />
                       </SelectTrigger>
@@ -267,7 +242,15 @@ export function OrthodoxBible() {
                           Old Testament
                         </div>
                         {ot.map((b) => (
-                          <SelectItem key={b.id} value={b.name}>
+                          <SelectItem key={b.key} value={b.key}>
+                            {b.name}
+                          </SelectItem>
+                        ))}
+                        <div className="px-2 pb-2 pt-3 text-xs font-semibold text-muted-foreground">
+                          Deuterocanon
+                        </div>
+                        {deut.map((b) => (
+                          <SelectItem key={b.key} value={b.key}>
                             {b.name}
                           </SelectItem>
                         ))}
@@ -275,8 +258,8 @@ export function OrthodoxBible() {
                           New Testament
                         </div>
                         {nt.map((b) => (
-                          <SelectItem key={b.id} value={b.name}>
-                            {b.name}
+                          <SelectItem key={b.key} value={b.key}>
+                            {b.key === "rev" ? "Revelation (Apocalypse)" : b.name}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -315,9 +298,6 @@ export function OrthodoxBible() {
                         <ChevronRight className="h-4 w-4" />
                       </Button>
                     </div>
-                    <p className="text-xs text-muted-foreground">
-                      Tip: if a chapter doesn't exist, the reader will show an error—just go back.
-                    </p>
                   </div>
                 </div>
 
@@ -326,23 +306,13 @@ export function OrthodoxBible() {
                     variant={isBookmarked ? "secondary" : "outline"}
                     className="h-11 rounded-2xl border-border/60"
                     onClick={() => {
-                      const ref = `${book} ${chapter}`;
+                      const ref = `${currentBook.name} ${chapter}`;
                       if (isBookmarked) removeBookmark(ref);
                       else addBookmark(ref);
                     }}
                   >
                     <Bookmark className="mr-2 h-4 w-4" />
                     {isBookmarked ? "Bookmarked" : "Bookmark"}
-                  </Button>
-
-                  <Button
-                    asChild
-                    variant="outline"
-                    className="h-11 rounded-2xl border-border/60"
-                  >
-                    <a href={browseUrl} target="_blank" rel="noreferrer">
-                      Open JSON <ExternalLink className="ml-2 h-4 w-4" />
-                    </a>
                   </Button>
                 </div>
               </div>
@@ -351,13 +321,15 @@ export function OrthodoxBible() {
             <Card className="rounded-3xl border-border/60 bg-card p-5 shadow-sm">
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <h3 className="text-base font-semibold tracking-tight">{browseTitle}</h3>
+                  <h3 className="text-base font-semibold tracking-tight">
+                    {currentBook.name} {chapter}
+                  </h3>
                   <p className="mt-1 text-xs text-muted-foreground">
-                    Translation: {browseQuery.data?.translation_name || "—"}
+                    Translation: {translation} (bolls.life)
                   </p>
                 </div>
                 <Badge className="rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-                  Chapter
+                  {currentBook.group}
                 </Badge>
               </div>
 
@@ -365,30 +337,24 @@ export function OrthodoxBible() {
 
               {browseQuery.isError ? (
                 <p className="text-sm text-destructive">
-                  Couldn't load {book} {chapter}. Try another chapter.
+                  Couldn't load {currentBook.name} {chapter} in {translation}.
                 </p>
               ) : browseQuery.isLoading ? (
                 <p className="text-sm text-muted-foreground">Fetching chapter…</p>
-              ) : browseVerses.length ? (
+              ) : browseQuery.data?.length ? (
                 <div className="space-y-3">
-                  {browseVerses.map((v, idx) => (
-                    <p key={idx} className="text-sm leading-relaxed">
+                  {browseQuery.data.map((v) => (
+                    <p key={v.verse} className="text-sm leading-relaxed">
                       <span className="mr-2 align-top text-xs font-semibold text-muted-foreground">
-                        {v.chapter}:{v.verse}
+                        {v.verse}
                       </span>
-                      <span className="text-foreground/90">{v.text?.trim()}</span>
+                      <span className="text-foreground/90">{v.text}</span>
                     </p>
                   ))}
                 </div>
               ) : (
-                <p className="text-sm text-muted-foreground">
-                  No text returned.
-                </p>
+                <p className="text-sm text-muted-foreground">No text returned.</p>
               )}
-
-              <div className="mt-5 text-xs text-muted-foreground">
-                Text API source: "https://bible-api.com" (CORS-enabled). Not an official OCA publication.
-              </div>
             </Card>
           </div>
         </TabsContent>
@@ -406,7 +372,7 @@ export function OrthodoxBible() {
                     <Input
                       value={refInput}
                       onChange={(e) => setRefInput(e.target.value)}
-                      placeholder="Try: John 1:1-5, Psalm 50, Romans 8"
+                      placeholder="Try: John 1:1, 1 Kingdoms 2, Tobit 3"
                       className="h-11 rounded-2xl pl-10"
                       onKeyDown={(e) => {
                         if (e.key === "Enter") setRefSubmitted(refInput);
@@ -424,17 +390,12 @@ export function OrthodoxBible() {
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <h3 className="text-base font-semibold tracking-tight">
-                    {refQuery.isLoading ? "Loading…" : refQuery.data?.reference || refSubmitted}
+                    {refQuery.isLoading ? "Loading…" : refSubmitted}
                   </h3>
                   <p className="mt-1 text-xs text-muted-foreground">
-                    Translation: {refQuery.data?.translation_name || "—"}
+                    Translation: {translation}
                   </p>
                 </div>
-                <Button asChild variant="outline" className="rounded-2xl border-border/60">
-                  <a href={refUrl} target="_blank" rel="noreferrer">
-                    Open JSON <ExternalLink className="ml-2 h-4 w-4" />
-                  </a>
-                </Button>
               </div>
 
               <Separator className="my-4" />
@@ -445,14 +406,14 @@ export function OrthodoxBible() {
                 </p>
               ) : refQuery.isLoading ? (
                 <p className="text-sm text-muted-foreground">Fetching passage…</p>
-              ) : (refQuery.data?.verses?.length ?? 0) ? (
+              ) : refQuery.data?.length ? (
                 <div className="space-y-3">
-                  {(refQuery.data?.verses ?? []).map((v, idx) => (
-                    <p key={idx} className="text-sm leading-relaxed">
+                  {refQuery.data.map((v) => (
+                    <p key={v.verse} className="text-sm leading-relaxed">
                       <span className="mr-2 align-top text-xs font-semibold text-muted-foreground">
-                        {v.chapter}:{v.verse}
+                        {v.verse}
                       </span>
-                      <span className="text-foreground/90">{v.text?.trim()}</span>
+                      <span className="text-foreground/90">{v.text}</span>
                     </p>
                   ))}
                 </div>
@@ -487,7 +448,7 @@ export function OrthodoxBible() {
                     <div>
                       <p className="text-sm font-semibold">{b.ref}</p>
                       <p className="mt-1 text-xs text-muted-foreground">
-                        Translation: {b.translation.toUpperCase()}
+                        Translation: {b.translation}
                       </p>
                     </div>
                     <div className="flex gap-2">
@@ -495,10 +456,10 @@ export function OrthodoxBible() {
                         variant="outline"
                         className="rounded-2xl border-border/60"
                         onClick={() => {
-                          // Load into browse if it looks like "Book Chapter"
                           const match = b.ref.match(/^(.*)\s+(\d+)$/);
                           if (match) {
-                            setBook(match[1]);
+                            const bookObj = getBookByNameLike(match[1]);
+                            if (bookObj) setBookKey(bookObj.key);
                             setChapter(Number(match[2]));
                           }
                           setRefInput(b.ref);
@@ -526,6 +487,29 @@ export function OrthodoxBible() {
           </Card>
         </TabsContent>
       </Tabs>
+
+      <Card className="rounded-3xl border-border/60 bg-card p-5 shadow-sm">
+        <h3 className="text-base font-semibold tracking-tight">Orthodox Study Bible (OSB) note</h3>
+        <p className="mt-2 text-sm text-muted-foreground">
+          This reader aligns with the **OSB book list and order** (including the Septuagint-based
+          Old Testament and Deuterocanon).
+        </p>
+        <p className="mt-2 text-sm text-muted-foreground">
+          The OSB translation text is copyrighted; this app uses public-domain sources (KJV/YLT)
+          via the Bolls Bible API to provide the full canon.
+        </p>
+        <div className="mt-4">
+          <Button asChild className="rounded-2xl">
+            <a
+              href="https://www.oca.org/questions/scripture/canon-of-scripture"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Open OCA canon explanation <ExternalLink className="ml-2 h-4 w-4" />
+            </a>
+          </Button>
+        </div>
+      </Card>
     </div>
   );
 }
