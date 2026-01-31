@@ -34,9 +34,34 @@ const trisagion = [
   "Our Father, Who art in heaven, hallowed be Thy Name. Thy kingdom come. Thy will be done on earth as it is in heaven. Give us this day our daily bread; and forgive us our trespasses, as we forgive those who trespass against us; and lead us not into temptation, but deliver us from evil.",
 ];
 
-const morning = [
-  "In the Name of the Father, and of the Son, and of the Holy Spirit. Amen.",
-  "Glory to You, our God, glory to You.",
+const morningTrinity = [
+  "TO THE HOLY TRINITY:",
+  "Having arisen from sleep, we fall down before Thee, O Blessed One, and sing to Thee, O Mighty One, the angelic hymn: Holy! Holy! Holy! art Thou, O God; through the Theotokos, have mercy on us.",
+  "Glory to the Father, and to the Son, and to the Holy Spirit.",
+  "Do Thou, O Lord, Who hast raised me from my bed and from sleep, enlighten my mind and heart, and open my lips that I may praise Thee, O Holy Trinity: Holy! Holy! Holy! art Thou, O God; through the Theotokos, have mercy on us.",
+  "Now and ever and unto ages of ages. Amen.",
+  "The Judge will come suddenly and the acts of every man will be revealed; but with fear we cry in the middle of the night: Holy! Holy! Holy! art Thou, O God; through the Theotokos, have mercy on us.",
+];
+
+const morningFather = [
+  "TO THE FATHER:",
+  "O Lord Almighty, God of hosts and of all flesh, dwelling in the highest, caring for the humble, searching the reins and the heart, and clearly discerning the hidden things of men - O unoriginate and ever-existing Light, with whom there is no variation or shadow due to change, do Thou, O immortal King, accept our prayers which we offer to Thee at this present time from our soiled lips, trusting in the multitude of Thy bounties - forgive us our transgressions which we have committed knowingly or unknowingly, whether in word or deed or thought; cleanse us from all stain of body and soul. Grant us to pass through all the night of this present life with vigilant heart and sober thought, awaiting the coming of the radiant and manifest Day of Thy only-begotten Son, our Lord and God and Savior Jesus Christ, on which the judgment of all men shall come with glory, when to each man shall be given the reward of his deeds. May we not fall and become lazy, but instead have courage that, being roused to action, we may be found ready to enter into the joy and the divine bride-chamber of His glory, where the voice of those who feast is unceasing, and the gladness of those who behold the goodness of Thy countenance is unending. For Thou art the True light Who enlightenest and sanctifiest all things, and all creation sings Thy praise forever. Amen.",
+];
+
+const morningTheotokos = [
+  "TO THE THEOTOKOS:",
+  "I sing the praises of your grace, O Lady, entreating you to enrich my mind with grace! Teach me to walk uprightly, in the way of Christ's commandments. Strengthen my vigilance in song and prayer, which drive away the despair of sleep. Free me by your entreaties, O Bride of God, who am bound by sinful garments. Protect me in the night and in the day, delivering me from the enemies who contend against me. Give life to me who have been deadened by passion, you that gave birth to the life-giving God. Enlighten my blinded soul, you that gave birth to the never-ending light. O wonderful Palace of the Master, make me a house of the Divine Spirit. You that gave birth to the Physician, make well the passions of my soul. Lead me who am bestormed by life to the ways of repentance. Deliver me from the eternal flames. Do not show me to be the joy of demons because of my many sins.",
+  "Establish me anew who have been made senseless by transgressions, O Blameless One. Show me a stranger to every torment, and entreat the Master of All. Enable me to attain to the gladness of Heaven together with all the saints. O most Holy Virgin, hear the voice of your unprofitable servant. Grant me a stream of tears, O Most Pure One, to wash away the defilement of my soul. I bring to you the groaning of my heart unceasingly; beseech the Master to listen. Accept my prayerful service and bear it to the compassionate God! You that are higher than the angels, make me to be above the gloominess of the world. O light-bearing Cloud of Heaven, establish spiritual grace in me. Although stained by sin, I raise my hands and open my lips in praise of you! Deliver me from soul-corrupting wounds, entreating Christ fervently. To Him honor and worship are due, now and ever and unto ages of ages. Amen.",
+];
+
+const morningAngel = [
+  "TO THE GUARDIAN ANGEL:",
+  "O Holy Angel, keeping guard over my wretched soul and my passionate life, do not forsake me, a sinner, nor depart from me because of my incontinence. Do not give the evil enemy room to overcome me by force of this mortal body. Strengthen my weak and feeble hand, and set me on the way of salvation. Yea, O Holy Angel of God, guardian and protector of my wretched soul and body, forgive me everything by which I have offended you all the days of my life, and even what I have done this past night; protect me during this day, and guard me from every temptation of the enemy, that I may not anger God by any sin. Pray to the Lord for me, that He may confirm me in His fear and prove me a worthy servant of His goodness. Amen.",
+];
+
+const morningPatron = [
+  "TO ONE'S PATRON SAINT:",
+  "Pray to God for me, O Saint _____________ well-pleasing to God. I fervently entreat you who are the sure help and intercessor for my soul.",
 ];
 
 const evening = [
@@ -88,14 +113,16 @@ export function PrayerBook() {
           <AccordionItem value="morning" className="border-none">
             <AccordionTrigger className="rounded-2xl border border-border/60 bg-muted/20 px-4 text-left hover:no-underline">
               <span className="inline-flex items-center gap-2">
-                <Sun className="h-4 w-4 text-primary" /> Morning
+                <Sun className="h-4 w-4 text-primary" /> Morning Prayers
               </span>
             </AccordionTrigger>
             <AccordionContent className="pt-3">
               <div className="grid gap-3">
-                <PrayerBlock title="Begin" lines={morning} />
-                <PrayerBlock title="Trisagion prayers" lines={trisagion} />
-                <PrayerBlock title="Jesus Prayer (optional: 10–100)" lines={jesus} />
+                <PrayerBlock title="Morning Prayers" lines={morningTrinity} />
+                <PrayerBlock title="To the Father" lines={morningFather} />
+                <PrayerBlock title="To the Theotokos" lines={morningTheotokos} />
+                <PrayerBlock title="To the Guardian Angel" lines={morningAngel} />
+                <PrayerBlock title="To one's Patron Saint" lines={morningPatron} />
 
                 <div className="flex flex-wrap items-center gap-2">
                   <Button
