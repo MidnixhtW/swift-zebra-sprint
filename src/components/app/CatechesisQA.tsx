@@ -20,6 +20,12 @@ type Category =
   | "Scripture"
   | "Daily life"
   | "Saints & icons"
+  | "Parish life"
+  | "Liturgical arts"
+  | "Liturgical year"
+  | "Church history"
+  | "Other Christians"
+  | "Priesthood & monasticism"
   | "Death & funerals";
 
 type QA = {
@@ -31,6 +37,7 @@ type QA = {
 };
 
 const QA_ITEMS: QA[] = [
+  // --- Worship / Liturgy ---
   {
     category: "Worship",
     q: "What is the Divine Liturgy?",
@@ -54,6 +61,29 @@ const QA_ITEMS: QA[] = [
     sourceUrl:
       "https://www.oca.org/questions/divineliturgy/participation-in-the-entire-divine-liturgy",
   },
+  {
+    category: "Worship",
+    q: "Why make the sign of the Cross?",
+    a: [
+      "It is a brief bodily prayer that confesses the Holy Trinity and proclaims Christ's saving Cross.",
+      "The gesture trains the mind and body to remember God, not just the intellect.",
+    ].join("\n\n"),
+    sourceLabel: "OCA – Sign of the Cross (The Orthodox Faith)",
+    sourceUrl:
+      "https://www.oca.org/orthodoxy/the-orthodox-faith/worship/the-church-building/sign-of-the-cross",
+  },
+  {
+    category: "Worship",
+    q: "Why do Orthodox cross right-to-left?",
+    a: [
+      "The OCA Q&A notes that Eastern Christians traditionally cross right-to-left, while the West commonly goes left-to-right today.",
+      "Historically, the West once crossed the same way as the East; the exact reason for later reversal is not firmly established.",
+    ].join("\n\n"),
+    sourceLabel: "OCA – Sign of the Cross Direction (Q&A)",
+    sourceUrl: "https://www.oca.org/questions/teaching/sign-of-the-cross-direction",
+  },
+
+  // --- Sacraments / Confession / Communion ---
   {
     category: "Sacraments",
     q: "What are the sacraments in Orthodoxy?",
@@ -138,6 +168,18 @@ const QA_ITEMS: QA[] = [
     sourceUrl: "https://www.oca.org/questions/sevensacraments/baptismal-names",
   },
   {
+    category: "Sacraments",
+    q: "Where can I find many questions about marriage in the OCA?",
+    a: [
+      "The OCA has a dedicated Q&A index for the Sacrament of Marriage.",
+      "Use it when you need specifics (non-Orthodox spouse, divorce/remarriage, wedding rite, etc.), since these situations often require pastoral guidance.",
+    ].join("\n\n"),
+    sourceLabel: "OCA – The Sacrament of Marriage (Q&A index)",
+    sourceUrl: "https://www.oca.org/questions/sacramentmarriage",
+  },
+
+  // --- Saints, Theotokos, Icons ---
+  {
     category: "Saints & icons",
     q: "Why do Orthodox Christians venerate icons?",
     a: [
@@ -182,6 +224,18 @@ const QA_ITEMS: QA[] = [
     sourceUrl: "https://www.oca.org/questions/saints/sinlessness-of-mary",
   },
   {
+    category: "Saints & icons",
+    q: "How does the OCA explain the sinlessness of Mary?",
+    a: [
+      "The OCA Q&A addresses how Orthodoxy understands Mary's holiness.",
+      "If you're comparing Orthodox and Roman Catholic ideas (e.g., Immaculate Conception), use the OCA page to keep distinctions clear.",
+    ].join("\n\n"),
+    sourceLabel: "OCA – Sinlessness of Mary (Q&A)",
+    sourceUrl: "https://www.oca.org/questions/saints/sinlessness-of-mary",
+  },
+
+  // --- Daily life / habits ---
+  {
     category: "Daily life",
     q: "Why do Orthodox Christians fast?",
     a: [
@@ -223,16 +277,8 @@ const QA_ITEMS: QA[] = [
     sourceLabel: "OCA – The Rosary (Q&A)",
     sourceUrl: "https://www.oca.org/questions/romancatholicism/the-rosary",
   },
-  {
-    category: "Worship",
-    q: "Is 'Easter' a pagan feast?",
-    a: [
-      "The OCA Q&A addresses the claim that 'Easter' is pagan and clarifies the Christian meaning of the feast (Pascha).",
-      "In daily life, the key is the content: the celebration of Christ's Resurrection.",
-    ].join("\n\n"),
-    sourceLabel: "OCA – Is 'Easter' a pagan feast? (Q&A)",
-    sourceUrl: "https://www.oca.org/questions/liturgicalyear/is-easter-a-pagan-feast",
-  },
+
+  // --- Scripture ---
   {
     category: "Scripture",
     q: "How does Orthodoxy understand the Bible?",
@@ -263,27 +309,284 @@ const QA_ITEMS: QA[] = [
     sourceLabel: "OCA – Canon of Scripture (Q&A)",
     sourceUrl: "https://www.oca.org/questions/scripture/canon-of-scripture",
   },
+
+  // --- Parish life ---
   {
-    category: "Worship",
-    q: "Why make the sign of the Cross?",
+    category: "Parish life",
+    q: "How should I handle local 'rules' and customs in a parish?",
     a: [
-      "It is a brief bodily prayer that confesses the Holy Trinity and proclaims Christ's saving Cross.",
-      "The gesture trains the mind and body to remember God, not just the intellect.",
+      "The OCA emphasizes that parishes have local customs (how people venerate, when confession is offered, how people line up, etc.).",
+      "Don't weaponize internet checklists; learn the local practice with humility.",
+      "When you're confused, ask the priest directly—quietly and respectfully.",
     ].join("\n\n"),
-    sourceLabel: "OCA – Sign of the Cross (The Orthodox Faith)",
+    sourceLabel: "OCA – Rules & Customs (Q&A)",
+    sourceUrl: "https://www.oca.org/questions/parishlife/rules-customs",
+  },
+  {
+    category: "Parish life",
+    q: "What does the OCA say about tithing?",
+    a: [
+      "The OCA Q&A discusses tithing and stewardship in a pastoral way.",
+      "The goal is not guilt—it's offering first-fruits to support the Church's worship, mission, and care for people.",
+      "A simple practice: choose a percentage you can keep consistently, then grow in generosity over time.",
+    ].join("\n\n"),
+    sourceLabel: "OCA – Tithing (Q&A)",
+    sourceUrl: "https://www.oca.org/questions/parishlife/tithing",
+  },
+  {
+    category: "Parish life",
+    q: "Why don't Orthodox churches use musical instruments in worship?",
+    a: [
+      "The OCA Q&A explains the Orthodox tradition of worshiping with the human voice (chant/singing) rather than instruments.",
+      "The point is not 'music is bad,' but that Orthodox liturgy developed as a sung prayer of the gathered Church.",
+    ].join("\n\n"),
+    sourceLabel: "OCA – Musical Instruments (Q&A)",
+    sourceUrl: "https://www.oca.org/questions/parishlife/musical-instruments",
+  },
+  {
+    category: "Parish life",
+    q: "Why do some parishes use 'thee/thou' language?",
+    a: [
+      "The OCA Q&A discusses why certain English translations use 'thee/thou' for God and notes that different translations are used across parishes.",
+      "A healthy approach: don't fight a culture war over language—learn to pray with the text your parish uses.",
+    ].join("\n\n"),
+    sourceLabel: "OCA – Archaic English (Q&A)",
+    sourceUrl: "https://www.oca.org/questions/parishlife/archaic-english",
+  },
+  {
+    category: "Parish life",
+    q: "Why beeswax candles?",
+    a: [
+      "The OCA Q&A explains that beeswax is traditional and practical (cleaner burning, less odor/soot), while also noting there isn't a strict canonical requirement for '100% white beeswax.'",
+      "In practice: follow your parish's candle practice and focus on prayer, not policing materials.",
+    ].join("\n\n"),
+    sourceLabel: "OCA – Beeswax Candles (Q&A)",
+    sourceUrl: "https://www.oca.org/questions/parishlife/beeswax-candles",
+  },
+  {
+    category: "Parish life",
+    q: "How do I balance 'service' with prayer?",
+    a: [
+      "The OCA Q&A addresses the temptation to replace prayer with busyness.",
+      "A rule of thumb: prayer is not 'less productive service'—it's the root of all Christian service.",
+      "If your church work makes you resentful or dry, simplify and return to prayer.",
+    ].join("\n\n"),
+    sourceLabel: "OCA – Balancing Service with Prayer (Q&A)",
+    sourceUrl: "https://www.oca.org/questions/parishlife/balancing-service-with-prayer",
+  },
+
+  // --- Liturgical arts ---
+  {
+    category: "Liturgical arts",
+    q: "What is the iconostasis / Royal Doors?",
+    a: [
+      "The iconostasis is the screen of icons that both reveals and protects the holy altar, teaching the faith visually.",
+      "The Royal Doors (Holy Doors) mark the central entrance; practices about when they are opened/closed can vary by tradition.",
+      "If you're new: don't stress the details—learn the meaning and follow your parish's practice.",
+    ].join("\n\n"),
+    sourceLabel: "OCA – Royal Doors (Q&A)",
+    sourceUrl: "https://www.oca.org/questions/liturgicalservices/royal-doors",
+  },
+  {
+    category: "Liturgical arts",
+    q: "How does architecture express Orthodox theology?",
+    a: [
+      "The OCA Q&A explains how church architecture is not decorative—it's theological.",
+      "Items like the sanctuary, iconostasis, and arrangement of icons exist to form prayer and proclaim the Kingdom.",
+    ].join("\n\n"),
+    sourceLabel: "OCA – Church Architecture & Orthodox Theology (Q&A)",
+    sourceUrl: "https://www.oca.org/questions/liturgicarts/church-architecture-orthodox-theology",
+  },
+  {
+    category: "Liturgical arts",
+    q: "Why so much symbolism in worship?",
+    a: [
+      "The OCA Q&A addresses how Orthodox worship uses visible, embodied symbols (incense, icons, vestments) to proclaim the faith.",
+      "Symbols are not 'fake'; they are ways the Church teaches and prays with the whole person.",
+    ].join("\n\n"),
+    sourceLabel: "OCA – Function in Worship / Symbolism / Meaning (Q&A)",
     sourceUrl:
-      "https://www.oca.org/orthodoxy/the-orthodox-faith/worship/the-church-building/sign-of-the-cross",
+      "https://www.oca.org/questions/divineliturgy/function-in-worship-symbolism-meaning",
   },
   {
-    category: "Worship",
-    q: "Why do Orthodox cross right-to-left?",
+    category: "Liturgical arts",
+    q: "Where can I browse more liturgical-arts questions?",
     a: [
-      "The OCA Q&A notes that Eastern Christians traditionally cross right-to-left, while the West commonly goes left-to-right today.",
-      "Historically, the West once crossed the same way as the East; the exact reason for later reversal is not firmly established.",
+      "The OCA has a Liturgical Arts Q&A index covering icons, crosses, architecture, and other items.",
+      "Use it when you want details beyond a short summary.",
     ].join("\n\n"),
-    sourceLabel: "OCA – Sign of the Cross Direction (Q&A)",
-    sourceUrl: "https://www.oca.org/questions/teaching/sign-of-the-cross-direction",
+    sourceLabel: "OCA – Orthodoxy and Liturgical Arts (Q&A index)",
+    sourceUrl: "https://www.oca.org/questions/liturgicarts",
   },
+
+  // --- Liturgical year ---
+  {
+    category: "Liturgical year",
+    q: "How should I think about Pascha ('Easter') in Orthodoxy?",
+    a: [
+      "Pascha is the Feast of Feasts: the celebration of Christ's Resurrection.",
+      "The OCA addresses questions about the word 'Easter' and reminds readers to focus on the Christian meaning of the feast.",
+      "A practical habit: treat Great Lent + Holy Week + Pascha as one journey, not separate events.",
+    ].join("\n\n"),
+    sourceLabel: "OCA – Is 'Easter' a pagan feast? (Q&A)",
+    sourceUrl: "https://www.oca.org/questions/liturgicalyear/is-easter-a-pagan-feast",
+  },
+  {
+    category: "Liturgical year",
+    q: "How do I find Pascha and the movable feasts for a year?",
+    a: [
+      "The OCA publishes the Lenten and Paschal cycle dates.",
+      "Use it to plan confession, fasting effort, and travel.",
+    ].join("\n\n"),
+    sourceLabel: "OCA – Lenten and Paschal Cycle",
+    sourceUrl: "https://www.oca.org/fs/paschal-cycle",
+  },
+  {
+    category: "Liturgical year",
+    q: "Where can I browse other liturgical-year questions?",
+    a: [
+      "The OCA has a Liturgical Year Q&A index covering feasts and common practices.",
+      "It's useful when you're learning why we do things in Holy Week and feast-day services.",
+    ].join("\n\n"),
+    sourceLabel: "OCA – The Liturgical Year (Q&A index)",
+    sourceUrl: "https://www.oca.org/questions/liturgicalyear",
+  },
+  {
+    category: "Liturgical year",
+    q: "What are some Holy Friday customs about the tomb/shroud?",
+    a: [
+      "The OCA Q&A discusses customs of Great and Holy Friday.",
+      "If you're new: follow the parish, learn slowly, and keep the focus on repentance and love.",
+    ].join("\n\n"),
+    sourceLabel: "OCA – Customs of Great and Holy Friday (Q&A)",
+    sourceUrl: "https://www.oca.org/questions/liturgicalyear/customs-of-great-and-holy-friday",
+  },
+
+  // --- Church history ---
+  {
+    category: "Church history",
+    q: "Which is the original Church?",
+    a: [
+      "The OCA Q&A 'The Original Christian Church' addresses the question historically and ecclesiologically.",
+      "A helpful framing: Orthodoxy understands itself as the continuation of the one, apostolic Church from Pentecost, faithful to apostolic teaching and worship.",
+      "Use this kind of reading for humility and clarity, not for triumphalism.",
+    ].join("\n\n"),
+    sourceLabel: "OCA – The Original Christian Church (Q&A)",
+    sourceUrl: "https://www.oca.org/questions/history/the-original-christian-church",
+  },
+  {
+    category: "Church history",
+    q: "What does 'upon this rock I will build my church' mean?",
+    a: [
+      "The OCA Q&A presents the Orthodox interpretation of Matthew 16:18.",
+      "It emphasizes the confession of faith in Christ and Christ Himself as the true foundation.",
+    ].join("\n\n"),
+    sourceLabel: "OCA – On this Rock I will build my church (Q&A)",
+    sourceUrl: "https://www.oca.org/questions/history/on-this-rock-i-will-build-my-church",
+  },
+  {
+    category: "Church history",
+    q: "What is the 'branch theory' and how does Orthodoxy view it?",
+    a: [
+      "The OCA Q&A addresses 'branch theory' (the idea that the Church exists as multiple equal branches).",
+      "Orthodoxy typically rejects this as inadequate, because the Church is one and visible—not a federation of separate bodies.",
+    ].join("\n\n"),
+    sourceLabel: "OCA – Orthodox Christianity and the Branch Theory (Q&A)",
+    sourceUrl:
+      "https://www.oca.org/questions/history/orthodox-christianity-and-the-branch-theory",
+  },
+
+  // --- Other Christians / other confessions ---
+  {
+    category: "Other Christians",
+    q: "What about other Christians—can they be saved?",
+    a: [
+      "The OCA Q&A addresses this directly and cautions against treating salvation as a scorecard.",
+      "Orthodoxy confesses the Church as the fullness of faith, while leaving judgment to God and calling us to repentance.",
+      "A practical posture: pray for all, love all, and avoid presumption.",
+    ].join("\n\n"),
+    sourceLabel: "OCA – What about other Christians…? (Q&A)",
+    sourceUrl: "https://www.oca.org/questions/otherconfessions/what-about-other-christians",
+  },
+  {
+    category: "Other Christians",
+    q: "May Orthodox receive Communion in Roman Catholic churches?",
+    a: [
+      "The OCA Q&A states that Orthodox Christians are not permitted to receive Communion in non-Orthodox communities, because Eucharistic communion expresses a unity that does not yet exist.",
+      "This isn't a judgment of personal holiness; it's an ecclesial reality.",
+    ].join("\n\n"),
+    sourceLabel: "OCA – Communion in Roman Catholic Church (Q&A)",
+    sourceUrl: "https://www.oca.org/questions/romancatholicism/communion-in-roman-catholic-church",
+  },
+  {
+    category: "Other Christians",
+    q: "Orthodox worship vs. contemporary worship—what's the difference?",
+    a: [
+      "The OCA Q&A contrasts approaches and emphasizes Orthodox worship as God-centered, sacramental, and Eucharistic.",
+      "The point isn't 'style wars'; the deeper difference is theology and ecclesiology.",
+    ].join("\n\n"),
+    sourceLabel: "OCA – Orthodox Worship vs. Contemporary Worship (Q&A)",
+    sourceUrl:
+      "https://www.oca.org/questions/otherconfessions/orthodox-worship-vs.-contemporary-worship",
+  },
+  {
+    category: "Other Christians",
+    q: "How does the OCA address credibility / historical legitimacy of Orthodoxy?",
+    a: [
+      "The OCA Q&A 'Credibility of the Orthodox Church' addresses historical and spiritual questions from someone coming from an evangelical background.",
+      "It's helpful if you're sorting out whether Orthodoxy is 'just another denomination' or the continuation of apostolic Christianity.",
+    ].join("\n\n"),
+    sourceLabel: "OCA – Credibility of the Orthodox Church (Q&A)",
+    sourceUrl:
+      "https://www.oca.org/questions/otherconfessions/credibility-of-the-orthodox-church",
+  },
+  {
+    category: "Other Christians",
+    q: "Are Orthodox Christians 'Bible-believing'?",
+    a: [
+      "The OCA Q&A answers this by clarifying that Orthodoxy deeply affirms Holy Scripture.",
+      "The key distinction is that Scripture is received and interpreted within the Church's life and Holy Tradition, not in isolation.",
+    ].join("\n\n"),
+    sourceLabel: "OCA – Are Orthodox Christians 'Bible believing'? (Q&A)",
+    sourceUrl:
+      "https://www.oca.org/questions/otherconfessions/are-orthodox-christians-bible-believing",
+  },
+
+  // --- Priesthood / monasticism ---
+  {
+    category: "Priesthood & monasticism",
+    q: "How does someone become a priest?",
+    a: [
+      "The OCA provides practical guidance on discernment, parish involvement, mentoring, and seminary.",
+      "The point is not a 'career track,' but a tested vocation under the Church's blessing.",
+    ].join("\n\n"),
+    sourceLabel: "OCA – Procedure to Become a Priest (Q&A)",
+    sourceUrl:
+      "https://www.oca.org/questions/priesthoodmonasticism/procedure-to-become-a-priest",
+  },
+  {
+    category: "Priesthood & monasticism",
+    q: "What requirements lead toward priesthood?",
+    a: [
+      "The OCA Q&A emphasizes prayer, participation in services, tested character, and mentoring relationships.",
+      "It also encourages contacting seminaries and speaking honestly with one's pastor and bishop.",
+    ].join("\n\n"),
+    sourceLabel: "OCA – Requirements That Lead to Priesthood (Q&A)",
+    sourceUrl:
+      "https://www.oca.org/questions/priesthoodmonasticism/requirements-that-lead-to-priesthood",
+  },
+  {
+    category: "Priesthood & monasticism",
+    q: "Where can I browse more on priesthood and monastic life?",
+    a: [
+      "The OCA has a Priesthood / Monasticism Q&A index.",
+      "Use it to explore questions about vocation, ordination, and monastic life.",
+    ].join("\n\n"),
+    sourceLabel: "OCA – Priesthood / Monasticism (Q&A index)",
+    sourceUrl: "https://www.oca.org/questions/priesthoodmonasticism",
+  },
+
+  // --- Death & funerals ---
   {
     category: "Death & funerals",
     q: "What does the OCA say about cremation?",
@@ -296,14 +599,14 @@ const QA_ITEMS: QA[] = [
     sourceUrl: "https://www.oca.org/questions/deathfunerals/cremation",
   },
   {
-    category: "Sacraments",
-    q: "Where can I find many questions about marriage in the OCA?",
+    category: "Death & funerals",
+    q: "Where can I find guidance on memorials and prayers for the departed?",
     a: [
-      "The OCA has a dedicated Q&A index for the Sacrament of Marriage.",
-      "Use it when you need specifics (non-Orthodox spouse, divorce/remarriage, wedding rite, etc.), since these situations often require pastoral guidance.",
+      "The OCA has a Death / Funerals Q&A index which includes memorial practices and services.",
+      "When you're dealing with a real situation, speak with the priest in your parish.",
     ].join("\n\n"),
-    sourceLabel: "OCA – The Sacrament of Marriage (Q&A index)",
-    sourceUrl: "https://www.oca.org/questions/sacramentmarriage",
+    sourceLabel: "OCA – Death / Funerals (Q&A index)",
+    sourceUrl: "https://www.oca.org/questions/deathfunerals",
   },
 ];
 
@@ -320,6 +623,12 @@ export function CatechesisQA() {
       "Scripture",
       "Daily life",
       "Saints & icons",
+      "Parish life",
+      "Liturgical arts",
+      "Liturgical year",
+      "Church history",
+      "Other Christians",
+      "Priesthood & monasticism",
       "Death & funerals",
     ],
     [],
@@ -343,7 +652,7 @@ export function CatechesisQA() {
           <div>
             <h2 className="text-xl font-semibold tracking-tight">Catechesis (Q&A)</h2>
             <p className="mt-1 text-sm text-muted-foreground">
-              Expanded summaries + direct OCA sources. Use search to find a topic fast.
+              Expanded summaries + direct OCA sources. This is a curated set—use the OCA index for every topic.
             </p>
           </div>
           <HelpCircle className="h-5 w-5 text-muted-foreground" />
@@ -357,7 +666,7 @@ export function CatechesisQA() {
             <Input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search (e.g., confession, icons, fasting, Bible…)"
+              placeholder="Search (e.g., confession, icons, fasting, Bible, Pascha…)"
               className="h-11 rounded-2xl pl-10"
             />
           </div>
@@ -373,7 +682,7 @@ export function CatechesisQA() {
           </Tabs>
 
           <div className="text-xs text-muted-foreground">
-            Not seeing your question? Browse the full OCA index: "https://www.oca.org/questions"
+            Full OCA Q&A index: "https://www.oca.org/questions"
           </div>
         </div>
       </Card>
