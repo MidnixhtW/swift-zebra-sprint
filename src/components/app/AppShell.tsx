@@ -1,22 +1,36 @@
 import { ReactNode, useMemo, useState } from "react";
-import { BookOpen, Hand, Home, ScrollText } from "lucide-react";
+import {
+  BookOpen,
+  Hand,
+  HelpCircle,
+  Home,
+  ScrollText,
+  Sparkles,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   ToggleGroup,
   ToggleGroupItem,
 } from "@/components/ui/toggle-group";
 
-export type AppSection = "today" | "prayers" | "counter" | "readings" | "reflection";
+export type AppSection =
+  | "today"
+  | "prayers"
+  | "counter"
+  | "readings"
+  | "reflection"
+  | "catechesis";
 
 const sectionMeta: Record<
   AppSection,
   { label: string; icon: typeof Home; aria: string }
 > = {
   today: { label: "Today", icon: Home, aria: "Today" },
-  prayers: { label: "Prayers", icon: Hand, aria: "Prayers" },
+  prayers: { label: "Pray", icon: Hand, aria: "Prayers" },
   counter: { label: "Rope", icon: ScrollText, aria: "Jesus Prayer counter" },
-  readings: { label: "Readings", icon: BookOpen, aria: "Epistle and Gospel" },
-  reflection: { label: "Reflect", icon: ScrollText, aria: "Reflection" },
+  readings: { label: "Read", icon: BookOpen, aria: "Epistle and Gospel" },
+  reflection: { label: "Reflect", icon: Sparkles, aria: "Reflection" },
+  catechesis: { label: "Q&A", icon: HelpCircle, aria: "Catechesis questions" },
 };
 
 export function AppShell({
@@ -56,7 +70,7 @@ export function AppShell({
             onValueChange={(v) => {
               if (v) onSectionChange(v as AppSection);
             }}
-            className="grid grid-cols-5 gap-2"
+            className="grid grid-cols-6 gap-2"
           >
             {items.map(([key, meta]) => {
               const Icon = meta.icon;
@@ -67,13 +81,13 @@ export function AppShell({
                   value={key}
                   aria-label={meta.aria}
                   className={cn(
-                    "h-12 rounded-2xl border border-border/60 px-2 data-[state=on]:border-primary/30 data-[state=on]:bg-primary/10 data-[state=on]:text-primary",
+                    "h-12 rounded-2xl border border-border/60 px-1 data-[state=on]:border-primary/30 data-[state=on]:bg-primary/10 data-[state=on]:text-primary",
                     "transition-colors",
                   )}
                 >
                   <div className="flex w-full flex-col items-center justify-center gap-1">
                     <Icon className={cn("h-4 w-4", active && "text-primary")} />
-                    <span className="text-[11px] font-medium leading-none">
+                    <span className="text-[10px] font-medium leading-none">
                       {meta.label}
                     </span>
                   </div>

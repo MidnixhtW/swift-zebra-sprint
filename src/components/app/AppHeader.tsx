@@ -1,5 +1,6 @@
 import { format } from "date-fns";
-import { Cross, ExternalLink } from "lucide-react";
+import { Cross, ExternalLink, Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -7,6 +8,9 @@ import { Card } from "@/components/ui/card";
 
 export function AppHeader() {
   const today = new Date();
+  const { theme, setTheme } = useTheme();
+
+  const isDark = theme === "dark";
 
   return (
     <div className="grid gap-3">
@@ -24,6 +28,16 @@ export function AppHeader() {
         </div>
 
         <div className="flex items-center gap-2">
+          <Button
+            size="sm"
+            variant="outline"
+            className="h-9 w-9 rounded-2xl border-border/60 p-0"
+            aria-label="Toggle dark mode"
+            onClick={() => setTheme(isDark ? "light" : "dark")}
+          >
+            {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+          </Button>
+
           <Badge className="hidden rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary sm:inline-flex">
             OCA sources
           </Badge>

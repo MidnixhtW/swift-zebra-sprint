@@ -2,6 +2,7 @@
 
 import { AppHeader } from "@/components/app/AppHeader";
 import { AppShell, useAppSection } from "@/components/app/AppShell";
+import { CatechesisQA } from "@/components/app/CatechesisQA";
 import { DailyReadings } from "@/components/app/DailyReadings";
 import { DailyReflection } from "@/components/app/DailyReflection";
 import { JesusPrayerCounter } from "@/components/app/JesusPrayerCounter";
@@ -19,6 +20,7 @@ const Index = () => {
         {section === "counter" ? <JesusPrayerCounter /> : null}
         {section === "readings" ? <DailyReadings /> : null}
         {section === "reflection" ? <DailyReflection /> : null}
+        {section === "catechesis" ? <CatechesisQA /> : null}
       </div>
     </AppShell>
   );
