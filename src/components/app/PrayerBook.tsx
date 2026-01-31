@@ -64,9 +64,33 @@ const morningPatron = [
   "Pray to God for me, O Saint _____________ well-pleasing to God. I fervently entreat you who are the sure help and intercessor for my soul.",
 ];
 
-const evening = [
-  "In the Name of the Father, and of the Son, and of the Holy Spirit. Amen.",
-  "Glory to You, our God, glory to You.",
+const eveningIntro = [
+  "Have mercy on us, O Lord, have mercy on us; for laying aside all excuse, we sinners offer to Thee, as to our Master, this supplication: Have mercy on us.",
+  "Glory to the Father, and to the Son, and to the Holy Spirit.",
+  "O Lord, have mercy on us, for in Thee have we put our trust. Do not be angry with us, nor remember our iniquities, but look down on us even now, since Thou art compassionate, and deliver us from our enemies. For Thou art our God, and we are Thy people; we are all the work of Thy hands, and we call on Thy name.",
+  "Now and ever and unto ages of ages. Amen.",
+  "O blessed Theotokos, open the doors of compassion to us whose hope is in you, that we may not perish but be delivered from adversity through you, who are the salvation of the Christian people.",
+];
+
+const eveningFather = [
+  "TO THE FATHER:",
+  "O Eternal God, King of every creature, Who hast enabled me to attain to this hour, forgive me the sins which I have committed this day by thought, word and deed. Cleanse my humble soul, O Lord, from every defilement of flesh and spirit. Grant me, O Lord, to pass through the sleep of this night in peace, that I may rise from my humble bed and please Thy most Holy Name all the days of my life, vanquishing the enemies both fleshly and bodiless that contend against me. Deliver me from vain thoughts that defile me, O Lord, and from evil desires. For Thine is the Kingdom, and the power, and the glory: of the Father, and of the Son, and of the Holy Spirit, now and ever and unto ages of ages. Amen.",
+];
+
+const eveningChrist = [
+  "TO JESUS CHRIST:",
+  "O Almighty Word of the Father, Jesus Christ, Who art Thyself perfect: Because of Thy great mercy, do not ever depart from me, Thy servant, but always abide in me. O Jesus, Good Shepherd of Thy sheep, let me not fall into the disobedience of the serpent, nor leave me to the will of Satan, for the seeds of corruption are in me. O Lord God adorable, O Holy King Jesus, guard me while I sleep with the unfading light, Thy Holy Spirit, through Whom Thou didst sanctify Thy disciples. Grant even to me, Thy unworthy servant, O Lord, Thy salvation upon my bed. Enlighten my mind with the light of the understanding of Thy Gospel; my soul with love of Thy Cross; my heart with the purity of Thy word; my body with Thy passionless passion; preserve my thought in Thy humility, and raise me at the time proper for Thy glorification. For Thou art most glorified with Thy Father, Who is without beginning, and Thy Most Holy Spirit, unto the ages. Amen.",
+];
+
+const eveningSpirit = [
+  "TO THE HOLY SPIRIT:",
+  "O Lord, Heavenly King, Comforter, the Spirit of Truth, be compassionate and have mercy on me, Thy sinful servant. Remit and forgive me, the unworthy one, all the things which I have sinned as a man, both voluntary and involuntary, in knowledge and in ignorance: from my youth, from learning of evil, and from emptiness or despair. If I swore with Thy name, or stained it in my reasoning; or dishonored someone; or cursed someone with my anger; or saddened him; or if I have become angry over something; or lied; or slept unfittingly; or if a poor man came to me and I despised him; or if I saddened my brother; or frustrated or judged someone; or became puffed up and proud; or if while standing in prayer my mind was moved by the evil of this world; or contemplated suicide; or over ate and over drank, or laughed without reason; or thought of evil; or if I saw another's good and was bound by it in my heart; or spoke in an unseemly manner; or laughed at my brother's sin; forgive me, for my sins are countless in number. If I have forsaken prayer, or done anything evil - I do not remember, for I have committed even more! Have mercy on me, O Master my Creator, Thine unworthy and unprofitable servant. Forgive, remit, and loose my sins, for Thou art gracious and lovest mankind; that I may rest in peace and sleep, though a prodigal, sinful and wretched, so that I may adore and praise and glorify Thy most honorable Name, together with the Father and His only-begotten Son, now and ever and unto ages of ages. Amen.",
+];
+
+const eveningTheotokos = [
+  "TO THE VIRGIN THEOTOKOS:",
+  "Rejoice! O Virgin Theotokos! Mary, full of Grace, the Lord is with you. Blessed are you among women, and blessed is the fruit of your womb, for you have borne the Savior of our souls!",
+  "O victorious leader of triumphant host! We, your servants, delivered from evil, sing our grateful thanks to you, O Theotokos! As you possess invincible might set us free from every calamity so that we may sing: Rejoice! O unwedded Bride!",
 ];
 
 const jesus = ["Lord Jesus Christ, Son of God, have mercy on me, a sinner."];
@@ -146,14 +170,16 @@ export function PrayerBook() {
           <AccordionItem value="evening" className="mt-3 border-none">
             <AccordionTrigger className="rounded-2xl border border-border/60 bg-muted/20 px-4 text-left hover:no-underline">
               <span className="inline-flex items-center gap-2">
-                <MoonStar className="h-4 w-4 text-primary" /> Evening
+                <MoonStar className="h-4 w-4 text-primary" /> Evening Prayers
               </span>
             </AccordionTrigger>
             <AccordionContent className="pt-3">
               <div className="grid gap-3">
-                <PrayerBlock title="Begin" lines={evening} />
-                <PrayerBlock title="Trisagion prayers" lines={trisagion} />
-                <PrayerBlock title="Jesus Prayer (optional: 10–100)" lines={jesus} />
+                <PrayerBlock title="Evening Prayers" lines={eveningIntro} />
+                <PrayerBlock title="To the Father" lines={eveningFather} />
+                <PrayerBlock title="To Jesus Christ" lines={eveningChrist} />
+                <PrayerBlock title="To the Holy Spirit" lines={eveningSpirit} />
+                <PrayerBlock title="To the Virgin Theotokos" lines={eveningTheotokos} />
 
                 <div className="flex flex-wrap items-center gap-2">
                   <Button
