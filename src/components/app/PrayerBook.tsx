@@ -184,29 +184,106 @@ const ocaOccasions = [
   },
 ];
 
-const communionChurchLinks = [
+const prayerSources = [
   {
-    label: "GOARCH: Personal & Devotional Prayers",
-    href: "https://www.goarch.org/chapel/prayers",
-    note: "Greek Orthodox Archdiocese of America (in communion with OCA).",
+    group: "Greek Orthodox Archdiocese of America (GOARCH)",
+    items: [
+      {
+        label: "Personal & Devotional Prayers",
+        href: "https://www.goarch.org/chapel/prayers",
+        note: "In communion with OCA.",
+      },
+      {
+        label: "Prayers for the Sick",
+        href: "https://www.goarch.org/-/prayers-for-the-sick",
+      },
+      {
+        label: "Prayers Before Sleep",
+        href: "https://www.goarch.org/-/prayers-before-sleep",
+      },
+      {
+        label: "Communion of the Sick",
+        href: "https://www.goarch.org/-/communion-of-the-sick",
+      },
+      {
+        label: "Blessing of Vehicles of Travel",
+        href: "https://www.goarch.org/-/prayer-at-the-blessing-of-vehicles-of-travel",
+      },
+    ],
   },
   {
-    label: "GOARCH: Prayers for the Sick",
-    href: "https://www.goarch.org/-/prayers-for-the-sick",
+    group: "Antiochian Orthodox Christian Archdiocese (North America)",
+    items: [
+      {
+        label: "Prayers (index)",
+        href: "https://www.antiochian.org/prayers",
+        note: "In communion with OCA.",
+      },
+      {
+        label: "Morning Prayers",
+        href: "https://www.antiochian.org/morning-prayers",
+      },
+      {
+        label: "Morning Prayers (PDF)",
+        href: "https://antiochianprodsa.blob.core.windows.net/websiteattachments/Morning%20Prayers.pdf",
+        note: "Printable PDF.",
+      },
+      {
+        label: "Liturgical resources",
+        href: "https://www.antiochian.org/liturgicalresources",
+      },
+    ],
   },
   {
-    label: "GOARCH: Prayers Before Sleep",
-    href: "https://www.goarch.org/-/prayers-before-sleep",
+    group: "Ukrainian Orthodox Church of the USA (UOC-USA)",
+    items: [
+      {
+        label: "Prayers for Orthodox Christians",
+        href: "https://www.uocofusa.org/sr_prayers",
+        note: "In communion with OCA.",
+      },
+    ],
   },
   {
-    label: "GOARCH: Communion of the Sick",
-    href: "https://www.goarch.org/-/communion-of-the-sick",
+    group: "Russian Orthodox Church Outside of Russia (ROCOR)",
+    items: [
+      {
+        label: "Eastern American Diocese: Liturgical Resources",
+        href: "https://eadiocese.org/litresource",
+        note: "Canonical ROCOR resources (in communion with OCA).",
+      },
+      {
+        label: "ROCOR Synod (official site)",
+        href: "https://www.synod.com/synod/indexeng.htm",
+      },
+    ],
   },
   {
-    label: "GOARCH: Prayer at the Blessing of Vehicles of Travel",
-    href: "https://www.goarch.org/-/prayer-at-the-blessing-of-vehicles-of-travel",
+    group: "Serbian Orthodox Church (archived prayerbook pages)",
+    items: [
+      {
+        label: "Prayer Book (English, archived)",
+        href: "http://arhiva.spc.rs/eng/prayer_book.html",
+        note: "Older archived content; useful as a reference.",
+      },
+      {
+        label: "Molitvenik (Serbian, archived)",
+        href: "http://arhiva.spc.rs/sr/molitvenik.html",
+        note: "Serbian-language prayerbook (archived).",
+      },
+    ],
   },
-];
+  {
+    group: "Assembly of Canonical Orthodox Bishops (US) – Liturgical Texts",
+    items: [
+      {
+        label: "Liturgical Texts (official)",
+        href: "https://www.assemblyofbishops.org/resources-and-publications/liturgical-texts",
+        note: "Pan-Orthodox resources in the US.",
+      },
+    ],
+  },
+] as const;
 
 export function PrayerBook() {
   return (
@@ -320,24 +397,30 @@ export function PrayerBook() {
           <AccordionItem value="communion" className="mt-3 border-none">
             <AccordionTrigger className="rounded-2xl border border-border/60 bg-muted/20 px-4 text-left hover:no-underline">
               <span className="inline-flex items-center gap-2">
-                <Hand className="h-4 w-4 text-primary" /> More prayer sources (in communion)
+                <Hand className="h-4 w-4 text-primary" /> More Orthodox sources (in communion)
               </span>
             </AccordionTrigger>
             <AccordionContent className="pt-3">
               <div className="grid gap-3">
-                <div className="rounded-2xl border border-border/60 bg-muted/20 p-4">
-                  <p className="text-xs font-semibold tracking-wide text-muted-foreground">
-                    Greek Orthodox Archdiocese of America (GOARCH)
-                  </p>
-                  <div className="mt-3 grid gap-2">
-                    {communionChurchLinks.map((x) => (
-                      <LinkRow key={x.href} label={x.label} href={x.href} note={x.note} />
-                    ))}
+                {prayerSources.map((group) => (
+                  <div
+                    key={group.group}
+                    className="rounded-2xl border border-border/60 bg-muted/20 p-4"
+                  >
+                    <p className="text-xs font-semibold tracking-wide text-muted-foreground">
+                      {group.group}
+                    </p>
+                    <div className="mt-3 grid gap-2">
+                      {group.items.map((x) => (
+                        <LinkRow key={x.href} label={x.label} href={x.href} note={x.note} />
+                      ))}
+                    </div>
                   </div>
-                </div>
+                ))}
+
                 <p className="text-xs text-muted-foreground">
-                  Want more jurisdictions added (Antiochian, Serbian, Romanian, Bulgarian, etc.)?
-                  Tell me which ones you prefer and whether you want links only or full texts.
+                  If you want, I can also add: Romanian, Bulgarian, Georgian, Jerusalem,
+                  Mount Athos monasteries, etc. (links only).
                 </p>
               </div>
             </AccordionContent>
